@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         colors="true"
+         columns="max"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="../../dev/tests/unit/framework/bootstrap.php">
+    <coverage>
+        <include>
+            <directory suffix=".php">Tests/Unit/</directory>
+            <directory suffix=".php">Tests/Functional/</directory>
+        </include>
+    </coverage>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix=".php">Tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory suffix=".php">Tests/Functional/</directory>
+        </testsuite>
+    </testsuites>
+<!--    <listeners>-->
+<!--        <listener class="Magento\Framework\TestFramework\Unit\Listener\ReplaceObjectManager"/>-->
+<!--    </listeners>-->
+<!--    <extensions>-->
+<!--        <extension class="Qameta\Allure\PHPUnit\AllureExtension">-->
+<!--            &lt;!&ndash; Optional arguments block; omit it if you want to use default values &ndash;&gt;-->
+<!--            <arguments>-->
+<!--                &lt;!&ndash; Path to config file (default is config/allure.config.php) &ndash;&gt;-->
+<!--                <directory>allure/allure.config.php</directory>-->
+<!--            </arguments>-->
+<!--        </extension>-->
+<!--    </extensions>-->
+</phpunit>

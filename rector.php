@@ -6,6 +6,7 @@ use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\StaticCall\RemoveParentCallWithoutParentRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\Php80\Rector\FunctionLike\MixedTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
@@ -18,6 +19,9 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         DisallowedEmptyRuleFixerRector::class,
+        MixedTypeRector::class => [
+            __DIR__ . '/src/Api/',
+        ],
     ]);
 
     // register a single rule
