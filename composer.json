@@ -1,0 +1,42 @@
+{
+    "name": "tilta/magento-2-payment-module",
+    "description": "Tilta as payment method for Magento 2",
+    "license": "MIT",
+    "type": "magento2-module",
+    "authors": [
+        {
+            "name": "Tilta Fintech GmbH",
+            "email": "support@tilta.io",
+            "role": "Maintainer"
+        },
+        {
+            "name": "WEBiDEA",
+            "email": "github@webidea24.de",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "magento2",
+        "magento2-module",
+        "magento2-extension",
+        "payment"
+    ],
+    "autoload": {
+        "files": [
+            "src/registration.php"
+        ],
+        "psr-4": {
+            "Tilta\\Payment\\": "src/"
+        }
+    },
+    "require": {
+        "php": "~8.1 || ~8.2 || ~8.3",
+        "tilta-io/tilta-php-sdk": "dev-task/TILSDK-34_php8"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.12",
+        "phpunit/phpunit": "^11.4",
+        "rector/rector": "^1.2",
+        "symplify/easy-coding-standard": "^12.3"
+    }
+}

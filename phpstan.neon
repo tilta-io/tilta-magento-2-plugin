@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+    fileExtensions:
+        - php
+        - phtml
+    paths:
+        - src/
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#with no value type specified in iterable type array.#'
+        - '#type has no value type specified in iterable type array.#'
+        - '#has no value type specified in iterable type array.#'
