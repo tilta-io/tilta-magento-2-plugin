@@ -1,0 +1,13 @@
+Configure,Configure
+Close,Close
+"Invalid credentials for Tilta Payments. Error Message: %1","Invalid credentials for Tilta Payments. Error Message: %1"
+"Tilta credentials has been verified successfully.","Tilta credentials has been verified successfully."
+"Tilta Payment","Tilta Payment"
+Enabled,Enabled
+"Sandbox enabled","Sandbox enabled"
+"Sandbox Credentials","Sandbox Credentials"
+"Auth Token","Auth Token"
+"Merchant external ID","Merchant external ID"
+"Production Credentials","Production Credentials"
+Advanced,Advanced
+"Buyer External ID prefix","Buyer External ID prefix

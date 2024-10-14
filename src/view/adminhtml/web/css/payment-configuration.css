@@ -1,0 +1,14 @@
+.payment-tilta-section .config-heading {
+    display: grid;
+    grid-template-columns: 19rem 1fr 20rem;
+    gap: 1rem;
+    align-items: center;
+}
+
+.payment-tilta-section .config-heading .button-container {
+    text-align: right;
+}
+
+.payment-tilta-section > fieldset {
+    padding-left: 20rem !important;
+}

@@ -1,0 +1,13 @@
+Configure,Konfigurieren
+Close,Schließen
+"Invalid credentials for Tilta Payments. Error Message: %1","Ungültige Anmeldedaten für Tilta Payments. Fehlermeldung: %1"
+"Tilta credentials has been verified successfully.","Tilta-Anmeldedaten wurden erfolgreich überprüft."
+"Tilta Payment","Tilta Zahlung"
+Enabled,Aktiviert
+"Sandbox enabled","Sandbox aktiviert"
+"Sandbox Credentials","Sandbox Zugangsdaten"
+"Auth Token","Auth Token"
+"Merchant external ID","Externe Merchant-ID"
+"Production Credentials","Live Zugangsdaten"
+Advanced,Erweitert
+"Buyer External ID prefix","Präfix für externe Buyer-ID"
