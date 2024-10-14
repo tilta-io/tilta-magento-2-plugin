@@ -1,0 +1,21 @@
+{
+    "tilta_buyer_data": {
+        "column": {
+            "entity_id": true,
+            "customer_address_id": true,
+            "buyer_external_id": true,
+            "legal_form": true,
+            "incorporated_at": true,
+            "facility_valid_until": true,
+            "facility_total_amount": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "TILTA_BUYER_DATA_CSTR_ADDR_ID_CSTR_ADDR_ENTT_ENTT_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

@@ -80,4 +80,12 @@ class ConfigService
 
         return (string) $this->scopeConfig->getValue(self::CONFIG_TOKEN_LIVE, ScopeInterface::SCOPE_WEBSITE);
     }
+
+    public function getBuyerExternalIdPrefix(): ?string
+    {
+        $value = $this->scopeConfig->getValue('payment/tilta/general/buyer_external_id_prefix', ScopeInterface::SCOPE_WEBSITE);
+        $value = is_string($value) ? trim($value) : null;
+
+        return preg_replace('/[^A-Za-z0-9-_]/', '', (string) $value);
+    }
 }

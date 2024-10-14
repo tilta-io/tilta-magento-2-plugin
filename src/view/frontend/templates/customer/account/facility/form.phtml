@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityForm) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+?>
+<div class="tilta-facility-form__wrapper">
+    <fieldset class="fieldset">
+        <div class="field">
+            <label class="label">
+                <span><?=__('Address')?></span>
+            </label>
+            <div class="control">
+                <address aria-label="<?= $escaper->escapeHtml((string) __('Address')) ?>"><?= /** @noEscape */ $viewModel->formatAddress() ?></address>
+            </div>
+        </div>
+    </fieldset>
+
+    <form action="<?= $escaper->escapeUrl($block->getUrl('*/*/requestPost', ['id' => $viewModel->getAddress()->getId()])) ?>"
+          method="post"
+          data-hasrequired="<?php  echo __('* Required Fields') ?>"
+          data-mage-init='{"validation": {}}'>
+
+        <div>
+            <?= $block->getChildHtml('fields') ?>
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action save primary" title="<?= $escaper->escapeHtmlAttr(__('Request credit facility')) ?>">
+                    <span><?= $escaper->escapeHtml((string) __('Request credit facility')) ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

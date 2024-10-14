@@ -1,7 +1,58 @@
 Configure,Konfigurieren
 Close,Schließen
+"Requested address not found.","Angeforderte Adresse nicht gefunden."
+"Credit facilities","Kreditlimit"
+"Request credit facility","Kreditverfügungsrahmen anfragen"
+"Please provide your salutation.","Bitte geben Sie Ihre Anrede an."
+"Please provide your phone number.","Bitte geben Sie Ihre Telefonnummer an."
+"Please provide the legal form.","Bitte geben Sie die Rechtsform an."
+"Please provide the date of incorporation.","Bitte geben Sie das Gründungsdatum an."
+"The credit facility has been created successful.","Die Kreditlimit wurde erfolgreich erstellt."
+"Changing the country on a existing customer-address is not allowed, if the address does have a credit facility.","Das Ändern des Landes einer bestehenden Kundenadresse ist nicht erlaubt, wenn die Adresse über eine Kreditlimit verfügt."
+"Creating buyer is failed, cause of missing fields.","Erstellen des Tilta-Käufers ist aufgrund fehlender Felder fehlgeschlagen."
+"Order with id %1 is not a Tilta order.","Bestellung mit ID %1 ist keine Tilta-Bestellung."
+"Tilta Customer address data not found","Tilta-Kundenadressdaten nicht gefunden"
 "Invalid credentials for Tilta Payments. Error Message: %1","Ungültige Anmeldedaten für Tilta Payments. Fehlermeldung: %1"
 "Tilta credentials has been verified successfully.","Tilta-Anmeldedaten wurden erfolgreich überprüft."
+"Invalid date format","Ungültiges Datumsformat"
+"Please provide the company name.","Bitte geben Sie den Firmennamen an."
+"Incorporated at must be a valid date","Gründungsdatum muss ein gültiges Datum sein"
+"Invalid buyer-external-id","Ungültige externe Käufer-ID"
+"Facility got not returned from gateway","Kreditlimit wurde nicht vom Gateway zurückgegeben"
+"TILTA_LEGAL_FORM_AG","Aktiengesellschaft"
+"TILTA_LEGAL_FORM_EG","Europäische Genossenschaft"
+"TILTA_LEGAL_FORM_EK","Einzelkaufmann/Einzelkauffrau"
+"TILTA_LEGAL_FORM_EV","Eingetragener Verein"
+"TILTA_LEGAL_FORM_FREELANCER","Freiberufler/Freiberuflerin"
+"TILTA_LEGAL_FORM_FREIBERUFLER","Freiberufler/Freiberuflerin"
+"TILTA_LEGAL_FORM_GBR","Gesellschaft bürgerlichen Rechts"
+"TILTA_LEGAL_FORM_GEWERBEBETRIEB","Gewerbebetrieb"
+"TILTA_LEGAL_FORM_GMBH","Gesellschaft mit beschränkter Haftung"
+"TILTA_LEGAL_FORM_GMBH_CO_KG","Gesellschaft mit beschränkter Haftung & Compagnie Kommanditgesellschaft"
+"TILTA_LEGAL_FORM_KDOR","Körperschaft des öffentlichen Rechts"
+"TILTA_LEGAL_FORM_KG","Kommanditgesellschaft"
+"TILTA_LEGAL_FORM_OHG","Offene Handelsgesellschaft"
+"TILTA_LEGAL_FORM_PRIVATE_PERSON","Privatperson"
+"TILTA_LEGAL_FORM_UG","Unternehmergesellschaft (haftungsbeschränkt)"
+"TILTA_LEGAL_FORM_EINZELUNTERNEHMER","Einzelunternehmer"
+"Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>.","Der Rechnungskauf wird in Zusammenarbeit mit der Varengold Bank angeboten. Ich bestätige, dass ich die Datenschutzbestimmungen von <a href=""%1"" target=""_blank"">Varengold</a> und <a href=""%2"" target=""_blank"">Tilta</a> gelesen habe und akzeptiere diese."
+"Can not render address","Adresse kann nicht angezeigt werden"
+"Phone Number","Telefonnummer"
+"Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Bitte beachten Sie die korrekte Schreibweise der Telefonnummer. Diese muss mit dem Ländercode beginnen und darf keine Leerzeichen enthalten. Beispiel: +491731010101."
+"Legal form","Rechtsform"
+"-- Please Select --","-- Bitte auswählen --"
+"Business Incorporation date","Gründungsdatum des Unternehmens"
+Day,Tag
+Month,Monat
+Year,Jahr
+Address,Adresse
+"* Required Fields","* Pflichtfelder"
+"You can apply for a credit limit to use Invoice Payments. After you are approved, you will have a site-wide credit limit, allowing you to delay payment for the orders that fit into your limit. Requesting a credit limit from us does not affect your credit rating.","Sie können ein Kreditlimit für die Nutzung von Rechnungszahlungen beantragen. Nach der Genehmigung haben Sie ein seitenweites Kreditlimit, das es Ihnen ermöglicht, die Zahlung für Bestellungen innerhalb dieses Limits zu verzögern. Die Beantragung eines Kreditlimits bei uns beeinflusst Ihre Bonität nicht."
+"Facility usage","Nutzung der Kreditlimit"
+Usage,Nutzung
+Spent,Ausgegeben
+Available,Verfügbar
+"Total amount","Gesamtbetrag"
 "Tilta Payment","Tilta Zahlung"
 Enabled,Aktiviert
 "Sandbox enabled","Sandbox aktiviert"

@@ -2,6 +2,14 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
 
+    <event name="customer_address_save_before">
+        <observer name="tilta-country-validation" instance="Tilta\Payment\Observer\OnAddressSaveCountryValidation"/>
+    </event>
+
+    <event name="customer_address_save_after">
+        <observer name="tilta-update-buyer" instance="Tilta\Payment\Observer\OnAddressSaveUpdateBuyer"/>
+    </event>
+
     <event name="admin_system_config_changed_section_payment">
         <observer name="tilta-test-credentials" instance="Tilta\Payment\Observer\OnSaveConfigTestCredentialsObserver"/>
     </event>

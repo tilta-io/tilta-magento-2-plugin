@@ -1,7 +1,58 @@
 Configure,Configure
 Close,Close
+"Requested address not found.","Requested address not found."
+"Credit facilities","Credit facilities"
+"Request credit facility","Request credit facility"
+"Please provide your salutation.","Please provide your salutation."
+"Please provide your phone number.","Please provide your phone number."
+"Please provide the legal form.","Please provide the legal form."
+"Please provide the date of incorporation.","Please provide the date of incorporation."
+"The credit facility has been created successful.","The credit facility has been created successful."
+"Changing the country on a existing customer-address is not allowed, if the address does have a credit facility.","Changing the country on a existing customer-address is not allowed, if the address does have a credit facility."
+"Creating buyer is failed, cause of missing fields.","Creating buyer is failed, cause of missing fields."
+"Order with id %1 is not a Tilta order.","Order with id %1 is not a Tilta order."
+"Tilta Customer address data not found","Tilta Customer address data not found"
 "Invalid credentials for Tilta Payments. Error Message: %1","Invalid credentials for Tilta Payments. Error Message: %1"
 "Tilta credentials has been verified successfully.","Tilta credentials has been verified successfully."
+"Invalid date format","Invalid date format"
+"Please provide the company name.","Please provide the company name."
+"Incorporated at must be a valid date","Incorporated at must be a valid date"
+"Invalid buyer-external-id","Invalid buyer-external-id"
+"Facility got not returned from gateway","Facility got not returned from gateway"
+"TILTA_LEGAL_FORM_AG","Public Limited Company"
+"TILTA_LEGAL_FORM_EG","European Cooperative Society"
+"TILTA_LEGAL_FORM_EK","Sole Proprietorship"
+"TILTA_LEGAL_FORM_EV","Registered Association"
+"TILTA_LEGAL_FORM_FREELANCER","Freelancer"
+"TILTA_LEGAL_FORM_FREIBERUFLER","Freelancer"
+"TILTA_LEGAL_FORM_GBR","Civil Law Partnership"
+"TILTA_LEGAL_FORM_GEWERBEBETRIEB","Commercial Enterprise"
+"TILTA_LEGAL_FORM_GMBH","Limited Liability Company"
+"TILTA_LEGAL_FORM_GMBH_CO_KG","Limited Liability Company & Limited Partnership"
+"TILTA_LEGAL_FORM_KDOR","Public Corporation"
+"TILTA_LEGAL_FORM_KG","Limited Partnership"
+"TILTA_LEGAL_FORM_OHG","General Partnership"
+"TILTA_LEGAL_FORM_PRIVATE_PERSON","Private Individual"
+"TILTA_LEGAL_FORM_UG","Entrepreneurial Company (limited liability)"
+"TILTA_LEGAL_FORM_EINZELUNTERNEHMER","Self employed"
+"Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>.","Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>."
+"Can not render address","Can not render address"
+"Phone Number","Phone Number"
+"Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101."
+"Legal form","Legal form"
+"-- Please Select --","-- Please Select --"
+"Business Incorporation date","Business Incorporation date"
+Day,Day
+Month,Month
+Year,Year
+Address,Address
+"* Required Fields","* Required Fields"
+"You can apply for a credit limit to use Invoice Payments. After you are approved, you will have a site-wide credit limit, allowing you to delay payment for the orders that fit into your limit. Requesting a credit limit from us does not affect your credit rating.","You can apply for a credit limit to use Invoice Payments. After you are approved, you will have a site-wide credit limit, allowing you to delay payment for the orders that fit into your limit. Requesting a credit limit from us does not affect your credit rating."
+"Facility usage","Facility usage"
+Usage,Usage
+Spent,Spent
+Available,Available
+"Total amount","Total amount"
 "Tilta Payment","Tilta Payment"
 Enabled,Enabled
 "Sandbox enabled","Sandbox enabled"

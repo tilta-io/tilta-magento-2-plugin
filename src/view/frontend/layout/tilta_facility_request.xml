@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+>
+    <update handle="customer_account"/>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Request credit facility</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="content">
+            <block name="tilta.facility.list.intro" template="Tilta_Payment::customer/account/facility/intro.phtml" />
+            <block name="tilta.facility" template="Tilta_Payment::customer/account/facility/form.phtml" cacheable="false">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                </arguments>
+                <block name="tilta.facility.form" as="fields" template="Tilta_Payment::components/buyer-fields.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

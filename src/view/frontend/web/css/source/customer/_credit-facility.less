@@ -1,0 +1,103 @@
+& when (@media-common = true) {
+    .tilta-facility-intro {
+        margin-bottom: @indent__base * 2;
+    }
+
+    .tilta-buyer-list {
+        &__item {
+            td[data-th]:before {
+                width: 100%;
+            }
+
+            &__status {
+                .progress-bar {
+                    display: block;
+                    width: 100%;
+                    margin: 0.5rem 0 0.5rem 0;
+                    height: 1rem;
+                    position: relative;
+                    background-color: whiteSmoke;
+                    border-radius: 2px;
+                    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) inset;
+
+                    span {
+                        display: block;
+                        height: 100%;
+                        background-color: @theme__color__primary;
+                        border-radius: 2px;
+                        text-indent: -9999px;
+                    }
+                }
+
+                &__detail {
+                    flex: 1 0 auto;
+
+                    .tilta-label {
+                        font-weight: @font-weight__bold;
+                    }
+
+                    &.tilta-expires {
+                        flex: 0 0 auto;
+                        display: flex;
+                        grid-gap: @indent__s;
+                        margin-left: auto;
+
+                        .tilta-label {
+                            &::after {
+                                content: ':'
+                            }
+                        }
+                    }
+
+                    &-wrapper {
+                        display: flex;
+                        //grid-template-columns: repeat(4, 1fr);
+                        grid-gap: @indent__base;
+                        text-align: center;
+                        flex-wrap: wrap;
+                    }
+                }
+            }
+
+            &:not(.has-facility) {
+                .tilta-buyer-list__item__status {
+                    vertical-align: middle;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .tilta-facility-form {
+        &__wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: @indent__base;
+
+            & > fieldset {
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        &__field_incorporated_at {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: @indent__s;
+        }
+    }
+
+    .tilta-phone-hint {
+        .lib-font-size(@font-size__s);
+        .lib-css(color, @text__color__muted);
+        margin-top: 0.5em;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .tilta-facility-form {
+        &__wrapper {
+            grid-template-columns: 1fr 3fr;
+        }
+    }
+}

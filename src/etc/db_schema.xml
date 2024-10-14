@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="tilta_buyer_data" resource="default" engine="innodb" comment="Tilta buyer data">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="int" name="customer_address_id" unsigned="true" nullable="false"/>
+        <column xsi:type="varchar" length="255" name="buyer_external_id" nullable="false"/>
+        <column xsi:type="varchar" length="255" name="legal_form" nullable="false"/>
+        <column xsi:type="date" name="incorporated_at" nullable="false"/>
+        <column xsi:type="datetime" name="facility_valid_until" nullable="true"/>
+        <column xsi:type="int" name="facility_total_amount" unsigned="true" nullable="true"/>
+        <column xsi:type="datetime" name="created_at" nullable="false"/>
+        <column xsi:type="datetime" name="updated_at" nullable="true"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign"
+                    referenceId="TILTA_BUYER_DATA_CSTR_ADDR_ID_CSTR_ADDR_ENTT_ENTT_ID"
+                    table="tilta_buyer_data"
+                    column="customer_address_id"
+                    referenceTable="customer_address_entity"
+                    referenceColumn="entity_id"
+                    onDelete="CASCADE"
+        />
+    </table>
+
+</schema>

@@ -55,6 +55,17 @@
                         <field id="sandbox_enabled">0</field>
                     </depends>
                 </group>
+
+                <group id="advanced" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Advanced</label>
+                    <field id="buyer_external_id_prefix" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Buyer External ID prefix</label>
+                        <comment>It is recommended to add a prefix to all Buyer External IDs to make sure they got not in conflict with other IDs of other systems.</comment>
+                    </field>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </group>
             </group>
         </section>
     </system>

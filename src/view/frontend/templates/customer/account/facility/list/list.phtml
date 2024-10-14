@@ -1,0 +1,61 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+use Magento\Framework\DataObject;
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityList;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityList) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+?>
+<div class="table-wrapper">
+    <table class="data table">
+        <thead>
+        <tr>
+            <th scope="col" class="col"><?= $block->escapeHtml(__('Address')) ?></th>
+            <th scope="col" class="col"><?= $block->escapeHtml(__('Facility usage')) ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($viewModel->getList() as $address) : ?>
+            <?php
+            $facilityUsage = $viewModel->getFacilityUsage($address);
+            ?>
+            <tr class="tilta-buyer-list__item<?= $facilityUsage ? ' has-facility' : '' ?>">
+                <td data-th="<?= $block->escapeHtml(__('Address')) ?>" class="col"><?= /** @noEscape */ $viewModel->formatAddress($address) ?></td>
+                <td data-th="<?= $block->escapeHtml(__('Usage')) ?>" class="col tilta-buyer-list__item__status">
+                    <?php if (!$facilityUsage instanceof DataObject) :?>
+                        <a class="action button primary" href="<?= $escaper->escapeUrl($block->getUrl('*/*/request', ['id' => $address->getId()])) ?>">
+                            <span><?= $block->escapeHtml(__('Request credit facility')) ?></span>
+                        </a>
+                    <?php else :?>
+                        <div class="progress-bar">
+                            <span style="width: <?= (float)$facilityUsage->getData('usage_percentage') ?>%;"
+                                  aria-label="<?= $block->escapeHtml(__('Usage')) ?>: <?= (float)$facilityUsage->getData('usage_percentage') ?>%;"></span>
+                        </div>
+
+                        <div class="tilta-buyer-list__item__status__detail-wrapper after-progressbar">
+                            <div class="tilta-buyer-list__item__status__detail tilta-spent">
+                                <div class="tilta-label"><span><?= $escaper->escapeHtml((string) __('Spent')) ?></span></div>
+                                <div class="tilta-value"><?= $escaper->escapeHtml($facilityUsage->getData('used_amount')) ?></div>
+                            </div>
+                            <div class="tilta-buyer-list__item__status__detail tilta-available">
+                                <div class="tilta-label"><span><?= $escaper->escapeHtml((string) __('Available')) ?></span></div>
+                                <div class="tilta-value"><?= $escaper->escapeHtml($facilityUsage->getData('available_amount')) ?></div>
+                            </div>
+                            <div class="tilta-buyer-list__item__status__detail tilta-total-amount">
+                                <div class="tilta-label"><span><?= $escaper->escapeHtml((string) __('Total amount')) ?></span></div>
+                                <div class="tilta-value"><?= $escaper->escapeHtml($facilityUsage->getData('total_amount')) ?></div>
+                            </div>
+                        </div>
+                    <?php endif ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,133 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+use Tilta\Payment\Block\Widget\Telephone;
+use Tilta\Payment\Model\CustomerAddressBuyer;
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityForm) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+
+$buyerData = $viewModel->getAddress()->getExtensionAttributes()?->getTiltaBuyer();
+$incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::createFromFormat($buyerData::DATE_FORMAT, $buyerData->getIncorporatedAt()) ?: null : null;
+?>
+<fieldset class="fieldset">
+    <div class="field telephone required">
+        <label for="telephone" class="label">
+            <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+        </label>
+        <div class="control">
+            <input type="tel"
+                   name="telephone"
+                   id="telephone"
+                   value="<?= $escaper->escapeHtmlAttr((string) $viewModel->getAddress()->getTelephone()) ?>"
+                   title="<?= $escaper->escapeHtmlAttr((string) __('Phone Number')) ?>"
+                   class="input-text"
+            >
+            <p class="tilta-phone-hint"><?= $escaper->escapeHtml((string)__('Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.')) ?></p>
+        </div>
+    </div>
+
+    <div class="field required">
+        <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>">
+            <span><?=__('Legal form')?></span>
+        </label>
+        <div class="control">
+            <select id="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>"
+                    name="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>"
+                    title="<?= __('Legal form') ?>"
+                    required
+            >
+                <?php if ($buyerData?->getLegalForm() === null): ?>
+                    <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+                <?php endif ?>
+                <?php foreach ($viewModel->getLegalForms() as $legalForm): ?>
+                    <option value="<?= $escaper->escapeHtmlAttr($legalForm['value']) ?>"
+                        <?= $buyerData?->getLegalForm() === $legalForm['value'] ? 'selected="selected"' : '' ?>
+                    >
+                        <?= $escaper->escapeHtml($legalForm['label']) ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </div>
+    </div>
+
+    <div class="field required">
+        <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day">
+            <span><?= $escaper->escapeHtml((string) __('Business Incorporation date')) ?></span>
+        </label>
+        <div class="control tilta-facility-form__field_incorporated_at">
+            <div>
+                <label for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day"><?= $escaper->escapeHtml((string) __('Day')) ?></label>
+                <select id="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day"
+                        name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[day]"
+                        title="<?= __('Day') ?>"
+                        required
+                >
+                    <?php if ($incorporatedAtDate === null): ?>
+                        <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+                    <?php endif ?>
+                    <?php for ($i = 1; $i <= 31; $i++): ?>
+                        <option value="<?= $i ?>"
+                                <?= (int)$incorporatedAtDate?->format('d') === $i ? 'selected="selected"' : '' ?>
+                        >
+                            <?= $i ?>
+                        </option>
+                    <?php endfor ?>
+                </select>
+            </div>
+            <div>
+                <label for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_month"><?= $escaper->escapeHtml((string) __('Month')) ?></label>
+                <select id="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_month"
+                        name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[month]"
+                        title="<?= __('Month') ?>"
+                        required
+                >
+                    <?php if ($incorporatedAtDate === null): ?>
+                        <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+                    <?php endif ?>
+                    <?php for ($i = 1; $i <= 12; $i++): ?>
+                        <option value="<?= $i ?>"
+                            <?= (int)$incorporatedAtDate?->format('m') === $i ? 'selected="selected"' : '' ?>
+                        ><?= $i ?></option>
+                    <?php endfor ?>
+                </select>
+            </div>
+            <div>
+                <label for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_year"><?= $escaper->escapeHtml((string) __('Year')) ?></label>
+                <select id="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_year"
+                        name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[year]"
+                        title="<?= __('Year') ?>"
+                        required
+                >
+                    <?php if ($incorporatedAtDate === null): ?>
+                        <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+                    <?php endif ?>
+                    <?php for ($i = ((int)date('Y')); $i >= ((int)date('Y')) - 100; $i--): ?>
+                        <option value="<?= $i ?>"
+                            <?= (int)$incorporatedAtDate?->format('Y') === $i ? 'selected="selected"' : '' ?>
+                        ><?= $i ?></option>
+                    <?php endfor ?>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="field choice">
+        <input type="checkbox" id="toc" name="toc" value="1" class="checkbox" required>
+        <label class="label" for="toc">
+            <span><?= /** @noEscape */ $viewModel->getToc() ?></span>
+        </label>
+    </div>
+</fieldset>
+
+    <div class="tcf_loading-screen" style="display: none">
+        <div class="inner">
+            <div class="text">{{ "account.tilta.loadingScreenText"|trans|sw_sanitize }}</div>
+        </div>
+    </div>

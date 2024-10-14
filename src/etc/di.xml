@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Tilta\Payment\Api\Data\CustomerAddressBuyerInterface" type="Tilta\Payment\Model\CustomerAddressBuyer"/>
+    <preference for="Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface" type="Tilta\Payment\Model\CustomerAddressBuyerRepository"/>
+
+    <type name="Magento\Customer\Api\Data\AddressInterface">
+        <plugin name="tilta-load-buyer-data" type="Tilta\Payment\Plugin\AddressEntityPlugin" />
+    </type>
 </config>
