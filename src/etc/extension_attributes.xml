@@ -6,4 +6,8 @@
         <attribute code="tilta_buyer" type="Tilta\Payment\Api\Data\CustomerAddressBuyerInterface"/>
     </extension_attributes>
 
+    <extension_attributes for="Magento\Quote\Api\Data\AddressInterface">
+        <attribute code="tilta_buyer" type="Tilta\Payment\Api\Data\CustomerAddressBuyerInterface"/>
+    </extension_attributes>
+
 </config>

@@ -13,4 +13,8 @@
     <event name="admin_system_config_changed_section_payment">
         <observer name="tilta-test-credentials" instance="Tilta\Payment\Observer\OnSaveConfigTestCredentialsObserver"/>
     </event>
+
+    <event name="payment_method_is_active">
+        <observer name="tilta" instance="Tilta\Payment\Observer\IsPaymentMethodAvailableFilter"/>
+    </event>
 </config>

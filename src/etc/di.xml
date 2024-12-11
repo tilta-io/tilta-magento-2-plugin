@@ -8,4 +8,65 @@
     <type name="Magento\Customer\Api\Data\AddressInterface">
         <plugin name="tilta-load-buyer-data" type="Tilta\Payment\Plugin\AddressEntityPlugin" />
     </type>
+
+    <!-- Payment Gateway -->
+    <virtualType name="TiltaPaymentFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">Tilta\Payment\Model\Ui\ConfigProvider::METHOD_CODE</argument>
+            <!-- currently it is not planed to implement the payment method in the admin -->
+            <argument name="formBlockType" xsi:type="null" />
+            <argument name="infoBlockType" xsi:type="string">Magento\Payment\Block\ConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">TiltaValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">TiltaValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">TiltaCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">TiltaConfigValueHandler</item>
+<!--                <item name="can_void" xsi:type="string">Magento\Braintree\Gateway\Config\CanVoidHandler</item>-->
+<!--                <item name="can_cancel" xsi:type="string">Magento\Braintree\Gateway\Config\CanVoidHandler</item>-->
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">TiltaConfigReader</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaConfigReader" type="Magento\Payment\Gateway\Config\Config">
+        <arguments>
+            <argument name="methodCode" xsi:type="const">Tilta\Payment\Model\Ui\ConfigProvider::METHOD_CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <!-- TODO add currency validator -->
+            <argument name="validators" xsi:type="array">
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Payment Gateway: command pool -->
+    <virtualType name="TiltaCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="authorize" xsi:type="string">TiltaAuthorizeCommand</item>
+<!--                <item name="capture" xsi:type="string">TiltaCaptureCommand</item>-->
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaAuthorizeCommand" type="Tilta\Payment\Gateway\Command\TiltaCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Tilta\Payment\Gateway\RequestBuilder\CreateOrderRequestBuilder</argument>
+            <argument name="requestServiceClass" xsi:type="string">Tilta\Sdk\Service\Request\Order\CreateOrderRequest</argument>
+        </arguments>
+    </virtualType>
+
 </config>

@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Tilta\Payment\Service;
 
+use LogicException;
 use Magento\Framework\ObjectManagerInterface;
 use Tilta\Sdk\HttpClient\TiltaClient;
 use Tilta\Sdk\Service\Request\AbstractRequest;
@@ -35,6 +36,14 @@ final class RequestServiceFactory
         /** @var T $instance */
         $instance = $this->objectManager->get($classString);
         $instance->setClient($this->getClient());
+
+        if (!$instance instanceof AbstractRequest) {
+            throw new LogicException(sprintf('%s must be instance of %s', $instance::class, AbstractRequest::class));
+        }
+
+        if (!$instance instanceof $classString) {
+            throw new LogicException(sprintf('%s must be instance of %s', $instance::class, $classString));
+        }
 
         return $instance;
     }
