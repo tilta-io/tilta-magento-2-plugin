@@ -17,4 +17,8 @@
     <event name="payment_method_is_active">
         <observer name="tilta" instance="Tilta\Payment\Observer\IsPaymentMethodAvailableFilter"/>
     </event>
+
+    <event name="payment_method_assign_data_tilta">
+        <observer name="tilta-assign-data" instance="Tilta\Payment\Observer\TiltaPaymentDataAssignAdditionalData"/>
+    </event>
 </config>

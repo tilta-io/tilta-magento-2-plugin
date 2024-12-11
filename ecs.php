@@ -8,6 +8,7 @@ use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSpaceFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -37,6 +38,9 @@ file that was distributed with this source code.', 'separate' => 'bottom', 'loca
         NoSuperfluousPhpdocTagsFixer::class => [
             __DIR__ . '/src/Api',
         ],
+        PhpdocNoEmptyReturnFixer::class => [
+            __DIR__ . '/src/Api',
+        ]
     ]);
 
     $ecsConfig->paths([

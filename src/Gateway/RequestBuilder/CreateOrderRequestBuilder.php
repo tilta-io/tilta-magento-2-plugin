@@ -21,9 +21,8 @@ use Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface;
 use Tilta\Payment\Gateway\RequestBuilder\Common\AddressBuilder;
 use Tilta\Payment\Gateway\RequestBuilder\Common\LineItemsBuilder;
 use Tilta\Payment\Helper\AmountHelper;
+use Tilta\Payment\Observer\TiltaPaymentDataAssignAdditionalData;
 use Tilta\Payment\Service\ConfigService;
-use Tilta\Sdk\Enum\PaymentMethodEnum;
-use Tilta\Sdk\Enum\PaymentTermEnum;
 use Tilta\Sdk\Model\Amount;
 use Tilta\Sdk\Model\Request\Order\CreateOrderRequestModel;
 
@@ -59,14 +58,22 @@ class CreateOrderRequestBuilder implements BuilderInterface
             throw new LocalizedException(__('Buyer does not have valid facility.'));
         }
 
+        $paymentTerm = $paymentDO->getPayment()->getAdditionalInformation(TiltaPaymentDataAssignAdditionalData::PAYMENT_TERM);
+        $paymentTerm = is_string($paymentTerm) ? $paymentTerm : null;
+
+        $paymentMethod = $paymentDO->getPayment()->getAdditionalInformation(TiltaPaymentDataAssignAdditionalData::PAYMENT_METHOD);
+        $paymentMethod = is_string($paymentMethod) ? $paymentMethod : null;
+
+        if (empty($paymentTerm) || empty($paymentMethod)) {
+            throw new LocalizedException(__('Missing payment information.'));
+        }
+
         $orderRequestModel =
             (new CreateOrderRequestModel())
                 ->setMerchantExternalId($this->configService->getMerchantExternalId())
                 ->setBuyerExternalId($externalId)
-                // TODO set payment method
-                ->setPaymentMethod(PaymentMethodEnum::TRANSFER)
-                // TODO set payment terms
-                ->setPaymentTerm(PaymentTermEnum::DEFER30)
+                ->setPaymentMethod($paymentMethod)
+                ->setPaymentTerm($paymentTerm)
                 ->setOrderedAt((new DateTime($order->getCreatedAt() ?? 'now')))
                 ->setOrderExternalId($order->getIncrementId())
                 ->setAmount(

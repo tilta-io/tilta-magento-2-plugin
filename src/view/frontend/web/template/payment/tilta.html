@@ -13,9 +13,28 @@
         <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
     </div>
     <div class="payment-method-content">
+        <!-- ko if: persistentErrorMessage() -->
+        <div aria-atomic="true" role="alert" class="message message-error error">
+            <div data-bind="text: persistentErrorMessage"></div>
+        </div>
+        <!--/ko-->
+
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
+
+        <!-- ko if: availablePaymentTerms().length > 0 -->
+        <div class="tilta-payment-method-terms-selection" data-bind="foreach: availablePaymentTerms">
+            <div data-bind="click: $parent.selectPaymentTerm.bind($parent), css: {'-selected': $parent.selectedPaymentTerm() === $data}">
+                <span data-bind="text: $t('Pay in %1 days').replace('%1', $parent.getDaysToDueDate(due_date))"></span>
+            </div>
+        </div>
+        <!--/ko-->
+
+        <!-- ko if: getPaymentInformation() -->
+        <p class="tilta-payment-method_info-text" data-bind="text: getPaymentInformation()"></p>
+        <!--/ko-->
+
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->

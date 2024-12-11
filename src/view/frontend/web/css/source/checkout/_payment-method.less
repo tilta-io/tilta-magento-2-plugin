@@ -1,0 +1,22 @@
+.tilta-payment-method-terms-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+
+    & > div {
+        flex-basis: 13rem;
+        padding: 1.5rem 0.5rem;
+        border: 1px solid @border-color__base;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover,
+        &.-selected {
+            background-color: @color-white-smoke;
+        }
+    }
+}

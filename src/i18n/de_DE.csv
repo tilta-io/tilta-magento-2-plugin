@@ -62,3 +62,7 @@ Enabled,Aktiviert
 "Production Credentials","Live Zugangsdaten"
 Advanced,Erweitert
 "Buyer External ID prefix","Präfix für externe Buyer-ID"
+"Pay in %1 days","In %1 Tagen zahlen"
+"Your credit limit is currently reached. Please settle any outstanding invoices before placing another order on account. If you have any questions or need assistance, our customer service is here to help.","Ihr Kreditrahmen ist momentan ausgeschöpft. Bevor Sie erneut auf Rechnung bestellen können, begleichen Sie bitte Ihre offenen Rechnungen. Bei Fragen oder Unklarheiten steht Ihnen unser Kundenservice gerne zur Verfügung."
+"Your credit limit does not cover the total of this order. Please review and adjust your order or payment method accordingly. If you have any questions or require assistance, please contact our customer service.","Ihr Kreditrahmen reicht derzeit nicht aus, um diese Bestellung durchzuführen. Bitte überprüfen und passen Sie Ihre Bestellung oder Zahlungsmethode entsprechend an. Bei Fragen oder Unterstützungsbedarf wenden Sie sich bitte an unseren Kundenservice.
+"Unfortunately, you cannot use this payment method. Please contact customer service.","Leider können Sie diese Zahlungsart nicht nutzen. Wenden Sie sich bitte an den Kundenservice."

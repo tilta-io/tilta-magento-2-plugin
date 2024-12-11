@@ -99,7 +99,7 @@ class FacilityService
         }
     }
 
-    private function updateFacilityOnCustomerAddress(CustomerAddressBuyerInterface $buyerData, Facility $facility): void
+    public function updateFacilityOnCustomerAddress(CustomerAddressBuyerInterface $buyerData, Facility $facility): void
     {
         $buyerData->setFacilityTotalAmount($facility->getTotalAmount());
         $buyerData->setFacilityValidUntil($facility->getExpiresAt()->format($buyerData::DATETIME_FORMAT));

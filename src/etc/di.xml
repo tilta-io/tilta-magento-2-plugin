@@ -5,6 +5,10 @@
     <preference for="Tilta\Payment\Api\Data\CustomerAddressBuyerInterface" type="Tilta\Payment\Model\CustomerAddressBuyer"/>
     <preference for="Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface" type="Tilta\Payment\Model\CustomerAddressBuyerRepository"/>
 
+    <preference for="Tilta\Payment\Api\CheckoutPaymentTermsInterface" type="Tilta\Payment\Model\CheckoutPaymentTerms"/>
+    <preference for="Tilta\Payment\Api\Data\CheckoutPaymentTermsResponseInterface" type="Tilta\Payment\Model\Data\CheckoutPaymentTermsResponse"/>
+    <preference for="Tilta\Payment\Api\Data\CheckoutPaymentTermInterface" type="Tilta\Payment\Model\Data\CheckoutPaymentTerm"/>
+
     <type name="Magento\Customer\Api\Data\AddressInterface">
         <plugin name="tilta-load-buyer-data" type="Tilta\Payment\Plugin\AddressEntityPlugin" />
     </type>
