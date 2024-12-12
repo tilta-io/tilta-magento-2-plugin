@@ -4,4 +4,12 @@
     <type name="Magento\Customer\Controller\Address\Form">
         <plugin name="tilta" type="Tilta\Payment\Plugin\AddressFormControllerPlugin" />
     </type>
+
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="tilta_payment" xsi:type="object">Tilta\Payment\Block\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -33,4 +33,15 @@ interface CheckoutPaymentTermsResponseInterface
      * @return void
      */
     public function setErrorMessage(?string $message): void;
+
+    /**
+     * @param bool $allowCreateFacility
+     * @return void
+     */
+    public function setAllowCreateFacility(bool $allowCreateFacility): void;
+
+    /**
+     * @return bool
+     */
+    public function isAllowCreateFacility(): bool;
 }

@@ -12,6 +12,7 @@ namespace Tilta\Payment\Service;
 
 use DateTime;
 use DateTimeInterface;
+use Magento\Catalog\Model\AbstractModel;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
@@ -107,7 +108,9 @@ class BuyerService
 
         $this->repository->save($buyerData);
 
-        $this->customerAddressRepository->save($addressEntity);
+        if ($addressEntity instanceof AbstractModel && $addressEntity->hasDataChanges()) {
+            $this->customerAddressRepository->save($addressEntity);
+        }
     }
 
     private function createNewCustomerAddressBuyerInstance(AddressInterface $addressEntity): CustomerAddressBuyerInterface

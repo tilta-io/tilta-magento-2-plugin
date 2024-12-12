@@ -1,0 +1,17 @@
+<div>
+    <!-- ko foreach: getRegion('messages') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+
+    <p data-bind="i18n: 'For utilizing this payment method, please request a credit availability limit from the payment service provider Tilta Fintech GmbH. Once approved, you can continue with your order.'"></p>
+    <form id="tilta-request-facility" class="form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+        <fieldset class="fieldset">
+            <!-- ko foreach: getRegion('tilta-request-facility-form-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </fieldset>
+        <button type="button" data-bind="click: () => onSubmit()" class="btn primary action">
+            <span data-bind="i18n: 'Request credit facility'"></span>
+        </button>
+    </form>
+</div>

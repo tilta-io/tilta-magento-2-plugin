@@ -9,6 +9,9 @@
     <preference for="Tilta\Payment\Api\Data\CheckoutPaymentTermsResponseInterface" type="Tilta\Payment\Model\Data\CheckoutPaymentTermsResponse"/>
     <preference for="Tilta\Payment\Api\Data\CheckoutPaymentTermInterface" type="Tilta\Payment\Model\Data\CheckoutPaymentTerm"/>
 
+    <preference for="Tilta\Payment\Api\CreditFacilityManagementInterface" type="Tilta\Payment\Model\CreditFacilityManagement"/>
+    <preference for="Tilta\Payment\Api\Data\CreditFacilityRequest\RequestInterface" type="Tilta\Payment\Model\Data\CreditFacilityRequest"/>
+
     <type name="Magento\Customer\Api\Data\AddressInterface">
         <plugin name="tilta-load-buyer-data" type="Tilta\Payment\Plugin\AddressEntityPlugin" />
     </type>

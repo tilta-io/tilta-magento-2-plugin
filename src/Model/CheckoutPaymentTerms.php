@@ -23,6 +23,7 @@ use Tilta\Payment\Helper\AmountHelper;
 use Tilta\Payment\Service\FacilityService;
 use Tilta\Payment\Service\PaymentTermsService;
 use Tilta\Sdk\Exception\GatewayException\Facility\FacilityExceededException;
+use Tilta\Sdk\Model\Response\PaymentTerm\GetPaymentTermsResponseModel;
 
 class CheckoutPaymentTerms implements CheckoutPaymentTermsInterface
 {
@@ -79,6 +80,7 @@ class CheckoutPaymentTerms implements CheckoutPaymentTermsInterface
         }
 
         $response->setPaymentTerms($responseTerms);
+        $response->setAllowCreateFacility(!$paymentTerms instanceof GetPaymentTermsResponseModel);
 
         return $response;
     }

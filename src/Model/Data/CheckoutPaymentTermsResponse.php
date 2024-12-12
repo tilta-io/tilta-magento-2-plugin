@@ -18,6 +18,8 @@ class CheckoutPaymentTermsResponse implements CheckoutPaymentTermsResponseInterf
 
     private ?string $errorMessage = null;
 
+    private bool $isAllowCreateFacility = false;
+
     public function getPaymentTerms(): array
     {
         return $this->paymentTerms;
@@ -36,5 +38,15 @@ class CheckoutPaymentTermsResponse implements CheckoutPaymentTermsResponseInterf
     public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
+    }
+
+    public function isAllowCreateFacility(): bool
+    {
+        return $this->isAllowCreateFacility;
+    }
+
+    public function setAllowCreateFacility(bool $allowCreateFacility): void
+    {
+        $this->isAllowCreateFacility = $allowCreateFacility;
     }
 }

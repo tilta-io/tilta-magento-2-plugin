@@ -12,4 +12,13 @@
         </data>
     </route>
 
+    <route url="/V1/tilta/credit-facility/request" method="POST">
+        <service class="Tilta\Payment\Api\CreditFacilityManagementInterface" method="requestCreditFacility"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
 </routes>

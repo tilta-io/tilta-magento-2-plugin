@@ -1,0 +1,38 @@
+<div class="tilta-facility-form__field_incorporated_at">
+    <select class="select"
+            required
+            aria-required="true"
+            data-bind="
+                attr: {
+                    'aria-invalid': error() ? true : 'false',
+                },
+                options: optionsDay,
+                value: valueDay,
+                optionsCaption: $t('Day')
+            "
+    ></select>
+    <select class="select"
+            required
+            aria-required="true"
+            data-bind="
+                attr: {
+                    'aria-invalid': error() ? true : 'false',
+                },
+                options: optionsMonth,
+                value: valueMonth,
+                optionsCaption: $t('Month')
+            "
+    ></select>
+    <select class="select"
+            required
+            aria-required="true"
+            data-bind="
+                attr: {
+                    'aria-invalid': error() ? true : 'false',
+                },
+                options: optionsYear,
+                value: valueYear,
+                optionsCaption: $t('Year')
+            "
+    ></select>
+</div>

@@ -40,11 +40,20 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+
+        <!-- ko if: allowCreateFacility() -->
+        <!-- ko foreach: $parent.getRegion('tilta-create-facility') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <!--/ko-->
+
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+
+        <!-- ko ifnot: allowCreateFacility() -->
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
@@ -58,5 +67,6 @@
                 </button>
             </div>
         </div>
+        <!--/ko-->
     </div>
 </div>

@@ -23,6 +23,7 @@ define([
         selectedPaymentTerm: ko.observable(null),
         availablePaymentTerms: ko.observable([]),
         persistentErrorMessage: ko.observable(null),
+        allowCreateFacility: ko.observable(false),
 
         initObservable: function () {
             this._super();
@@ -67,22 +68,28 @@ define([
             if (!customerAddressId) {
                 return;
             }
-            storage.get(urlBuilder.createUrl('/carts/mine/tilta/payment-terms/:addressId', {
-                addressId: customerAddressId
-            })).done((result) => {
-                if (result.payment_terms.length === 1) {
-                    this.selectedPaymentTerm(result.payment_terms[0]);
-                } else if (result.payment_terms.length > 0) {
-                    this.availablePaymentTerms(result.payment_terms);
-                }
 
-                if (result.error_message) {
-                    this.persistentErrorMessage(result.error_message);
-                }
-            }).fail((error) => {
-                this.messageContainer.addErrorMessage({message: $t('Unfortunately, you cannot use this payment method. Please contact customer service.')});
-                console.error(error);
-            });
+            return new Promise((resolve, reject) => {
+                storage.get(urlBuilder.createUrl('/carts/mine/tilta/payment-terms/:addressId', {
+                    addressId: customerAddressId
+                })).done((result) => {
+                    if (result.payment_terms.length === 1) {
+                        this.selectedPaymentTerm(result.payment_terms[0]);
+                    } else if (result.payment_terms.length > 0) {
+                        this.availablePaymentTerms(result.payment_terms);
+                    }
+
+                    if (result.error_message) {
+                        this.persistentErrorMessage(result.error_message);
+                    }
+                    this.allowCreateFacility(result.allow_create_facility ? result.allow_create_facility : false);
+                    resolve();
+                }).fail((error) => {
+                    this.messageContainer.addErrorMessage({message: $t('Unfortunately, you cannot use this payment method. Please contact customer service.')});
+                    console.error(error);
+                    reject(error);
+                });
+            })
         },
 
         isPlaceOrderActionAllowed() {

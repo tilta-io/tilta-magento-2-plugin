@@ -24,6 +24,85 @@
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>
+                                                                    <item name="children" xsi:type="array">
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+
+                                                        <item name="payments-list" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="tilta-create-facility" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Tilta_Payment/js/view/checkout/create-facility-form</item>
+                                                                    <item name="displayArea" xsi:type="string">tilta-create-facility</item>
+                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="tilta-request-facility-form-fieldset" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">uiComponent</item>
+                                                                            <item name="displayArea" xsi:type="string">tilta-request-facility-form-fields</item>
+                                                                            <item name="children" xsi:type="array">
+                                                                                <item name="telephone" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
+                                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/input</item>
+                                                                                    </item>
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.telephone</item>
+                                                                                    <item name="label" xsi:type="string" translate="true">Telephone</item>
+                                                                                    <item name="notice" xsi:type="string" translate="true">Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.</item>
+                                                                                    <item name="sortOrder" xsi:type="string">1</item>
+                                                                                    <item name="validation" xsi:type="array">
+                                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                                    </item>
+                                                                                </item>
+                                                                                <item name="legal_form" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
+                                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                                    </item>
+                                                                                    <!-- options got added by layout processor -->
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.legal_form</item>
+                                                                                    <item name="label" xsi:type="string" translate="true">Legal form</item>
+                                                                                    <item name="sortOrder" xsi:type="string">10</item>
+                                                                                </item>
+                                                                                <item name="incorporation_date" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">Tilta_Payment/js/form/element/incorporation_date</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
+                                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">Tilta_Payment/form/element/incorporation_date</item>
+                                                                                    </item>
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.incorporation_date</item>
+                                                                                    <item name="label" xsi:type="string" translate="true">Business Incorporation date</item>
+                                                                                    <item name="validation" xsi:type="array">
+                                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                                    </item>
+                                                                                    <item name="sortOrder" xsi:type="string">20</item>
+                                                                                </item>
+                                                                                <item name="toc" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/boolean</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
+                                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/checkbox</item>
+                                                                                    </item>
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.toc</item>
+                                                                                    <item name="description" xsi:type="string" translate="true">Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of Varengold and Tilta.</item>
+                                                                                    <item name="validation" xsi:type="array">
+                                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                                    </item>
+                                                                                    <item name="sortOrder" xsi:type="string">100</item>
+                                                                                </item>
+                                                                            </item>
+                                                                        </item>
+                                                                    </item>
                                                                 </item>
                                                             </item>
                                                         </item>
