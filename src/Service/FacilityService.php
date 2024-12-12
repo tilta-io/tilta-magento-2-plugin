@@ -62,16 +62,16 @@ class FacilityService
             $createFacilityRequest = $this->requestServiceFactory->get(CreateFacilityRequest::class);
             $createFacilityRequest->execute(new CreateFacilityRequestModel($buyerExternalId));
         } catch (DuplicateFacilityException) {
-            // do nothing - just jump into finally.
-        } finally {
-            $facility = $this->getFacility($address);
-            if ($facility instanceof Facility) {
-                $this->updateFacilityOnCustomerAddress($buyerData, $facility);
-                return $facility;
-            }
-
-            throw new LocalizedException(__('Facility got not returned from gateway'));
+            // do nothing. we will fetch the facility
         }
+
+        $facility = $this->getFacility($address);
+        if ($facility instanceof Facility) {
+            $this->updateFacilityOnCustomerAddress($buyerData, $facility);
+            return $facility;
+        }
+
+        throw new LocalizedException(__('Facility got not returned from gateway'));
     }
 
     public function getFacility(AddressInterface $addressEntity): ?GetFacilityResponseModel
