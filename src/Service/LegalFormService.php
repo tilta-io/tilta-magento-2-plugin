@@ -24,9 +24,9 @@ class LegalFormService
     ) {
     }
 
-    public function getLegalForms(string $countryCode): array
+    public function getLegalForms(): array
     {
-        $cacheKey = 'tilta-legal-forms-' . $countryCode;
+        $cacheKey = 'tilta-legal-forms-';
         $cachedResult = $this->cache->load($cacheKey);
         $results = null;
         if (is_string($cachedResult)) {
@@ -35,13 +35,13 @@ class LegalFormService
 
         if (!is_array($results)) {
             $responseModel = $this->requestServiceFactory->get(GetLegalFormsRequest::class)
-                ->execute(new GetLegalFormsRequestModel($countryCode));
+                ->execute(new GetLegalFormsRequestModel());
 
             $options = [];
             foreach ($responseModel->getItems() as $code => $label) {
                 $options[] = [
                     'value' => $code,
-                    'label' => $label,
+                    'label' => __($label),
                 ];
             }
 
@@ -55,8 +55,8 @@ class LegalFormService
         return $results;
     }
 
-    public function getLegalFormsOnlyCodes(string $countryCode): array
+    public function getLegalFormsOnlyCodes(): array
     {
-        return array_map(static fn (array $item) => $item['value'], $this->getLegalForms($countryCode));
+        return array_map(static fn (array $item) => $item['value'], $this->getLegalForms());
     }
 }

@@ -31,20 +31,7 @@ class FacilityForm implements ArgumentInterface
 
     public function getLegalForms(): array
     {
-        $countryCode = $this->getAddress()->getCountryId();
-        if (empty($countryCode)) {
-            return [];
-        }
-
-        $forms = $this->legalFormService->getLegalForms($countryCode);
-
-        foreach ($forms as &$form) {
-            if (preg_match(sprintf('/^%s_(.+)/', $this->getAddress()->getCountryId()), (string) $form['label'], $matches)) {
-                $form['label'] = (string) __('TILTA_LEGAL_FORM_' . $matches[1]);
-            }
-        }
-
-        return $forms;
+        return $this->legalFormService->getLegalForms();
     }
 
     public function getAddress(): AddressInterface
