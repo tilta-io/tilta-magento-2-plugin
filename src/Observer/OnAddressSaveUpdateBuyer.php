@@ -15,6 +15,8 @@ use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Psr\Log\LoggerInterface;
+use Throwable;
 use Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface;
 use Tilta\Payment\Service\BuyerService;
 
@@ -23,7 +25,8 @@ class OnAddressSaveUpdateBuyer implements ObserverInterface
     public function __construct(
         private readonly BuyerService $buyerService,
         private readonly AddressRepositoryInterface $addressRepository,
-        private readonly CustomerAddressBuyerRepositoryInterface $repository
+        private readonly CustomerAddressBuyerRepositoryInterface $repository,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -41,6 +44,13 @@ class OnAddressSaveUpdateBuyer implements ObserverInterface
             return;
         }
 
-        $this->buyerService->upsertBuyer($address);
+        try {
+            $this->buyerService->upsertBuyer($address);
+        } catch (Throwable) {
+            $this->logger->error('Tilta: Error on updating buyer with id ' . $buyerData->getBuyerExternalId(), [
+                'customer_address_id' => $address->getId(),
+                'buyer_external_id' => $buyerData->getBuyerExternalId(),
+            ]);
+        }
     }
 }
