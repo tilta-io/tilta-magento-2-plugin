@@ -71,7 +71,7 @@ class BuyerService
             return $externalId;
         }
 
-        return $this->config->getBuyerExternalIdPrefix() . ($address->getCustomerId() . '-' . $address->getId());
+        return $this->config->getBuyerExternalIdPrefix() . md5(time() . ($address->getCustomerId() . $address->getId()));
     }
 
     public function updateCustomerAddressData(AddressInterface $addressEntity, array $data): void
