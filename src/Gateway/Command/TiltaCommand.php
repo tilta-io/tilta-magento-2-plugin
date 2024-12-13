@@ -16,6 +16,7 @@ use Magento\Payment\Gateway\CommandInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Gateway\Validator\ResultInterface;
 use RuntimeException;
+use Tilta\Payment\Gateway\ResponseHandler\HandlerInterface;
 use Tilta\Payment\Service\RequestServiceFactory;
 use Tilta\Sdk\Exception\TiltaException;
 use Tilta\Sdk\Model\AbstractModel;
@@ -27,7 +28,8 @@ class TiltaCommand implements CommandInterface
         private readonly BuilderInterface $requestBuilder,
         private readonly RequestServiceFactory $requestServiceFactory,
         private readonly string $requestServiceClass,
-        private readonly ObjectManagerInterface $objectManager
+        private readonly ObjectManagerInterface $objectManager,
+        private readonly ?HandlerInterface $responseHandler = null,
     ) {
     }
 
@@ -40,7 +42,8 @@ class TiltaCommand implements CommandInterface
 
         $requestService = $this->requestServiceFactory->get('\\' . ltrim($this->requestServiceClass, '\\')); // @phpstan-ignore-line
         try {
-            $requestService->execute($data['request_model']);
+            $response = $requestService->execute($data['request_model']);
+            $this->responseHandler?->handle($commandSubject, $response);
         } catch (TiltaException $tiltaException) {
             throw new CommandException(__($tiltaException->getMessage()), $tiltaException, $tiltaException->getCode());
         }
