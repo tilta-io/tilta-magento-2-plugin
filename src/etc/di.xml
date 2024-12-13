@@ -65,6 +65,8 @@
             <argument name="commands" xsi:type="array">
                 <item name="authorize" xsi:type="string">TiltaAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">TiltaCaptureCommand</item>
+                <item name="void" xsi:type="string">TiltaCancelCommand</item>
+                <item name="cancel" xsi:type="string">TiltaCancelCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -81,6 +83,13 @@
         <arguments>
             <argument name="requestBuilder" xsi:type="object">Tilta\Payment\Gateway\RequestBuilder\CreateInvoiceRequestBuilder</argument>
             <argument name="requestServiceClass" xsi:type="string">Tilta\Sdk\Service\Request\Invoice\CreateInvoiceRequest</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="TiltaCancelCommand" type="Tilta\Payment\Gateway\Command\TiltaCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Tilta\Payment\Gateway\RequestBuilder\CancelOrderRequestBuilder</argument>
+            <argument name="requestServiceClass" xsi:type="string">Tilta\Sdk\Service\Request\Order\CancelOrderRequest</argument>
         </arguments>
     </virtualType>
 
