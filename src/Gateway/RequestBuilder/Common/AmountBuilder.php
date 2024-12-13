@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Tilta\Payment\Gateway\RequestBuilder\Common;
 
+use Magento\Sales\Api\Data\CreditmemoInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Invoice;
 use Tilta\Payment\Helper\AmountHelper;
@@ -31,5 +32,13 @@ class AmountBuilder
             ->setCurrency($invoice->getBaseCurrencyCode() ?: 'EUR')
             ->setGross(AmountHelper::toSdk((float) $invoice->getBaseGrandTotal()))
             ->setNet(AmountHelper::toSdk(((float) $invoice->getBaseGrandTotal()) - ((float) $invoice->getBasetaxAmount())));
+    }
+
+    public function createForCreditMemo(CreditmemoInterface $creditMemo): Amount
+    {
+        return (new Amount())
+            ->setCurrency($creditMemo->getBaseCurrencyCode() ?: 'EUR')
+            ->setGross(AmountHelper::toSdk((float) $creditMemo->getBaseGrandTotal()))
+            ->setNet(AmountHelper::toSdk(((float) $creditMemo->getBaseGrandTotal()) - ((float) $creditMemo->getBasetaxAmount())));
     }
 }
