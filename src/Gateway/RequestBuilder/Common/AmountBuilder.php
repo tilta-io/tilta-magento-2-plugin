@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace Tilta\Payment\Gateway\RequestBuilder\Common;
 
 use Magento\Sales\Api\Data\CreditmemoInterface;
+use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Model\Order\Invoice;
 use Tilta\Payment\Helper\AmountHelper;
 use Tilta\Sdk\Model\Amount;
 
@@ -26,7 +26,7 @@ class AmountBuilder
             ->setNet(AmountHelper::toSdk($order->getBaseGrandTotal() - $order->getBasetaxAmount()));
     }
 
-    public function createForInvoice(Invoice $invoice): Amount
+    public function createForInvoice(InvoiceInterface $invoice): Amount
     {
         return (new Amount())
             ->setCurrency($invoice->getBaseCurrencyCode() ?: 'EUR')

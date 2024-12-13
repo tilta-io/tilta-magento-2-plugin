@@ -14,10 +14,9 @@ use DateTime;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Order\Payment;
 use Magento\SalesSequence\Model\Manager;
-use ReflectionProperty;
 use Tilta\Payment\Gateway\RequestBuilder\Common\AddressBuilder;
 use Tilta\Payment\Gateway\RequestBuilder\Common\AmountBuilder;
 use Tilta\Payment\Gateway\RequestBuilder\Common\LineItemsBuilder;
@@ -38,16 +37,15 @@ class CreateInvoiceRequestBuilder implements BuilderInterface
         $paymentDO = SubjectReader::readPayment($buildSubject);
         $order = $paymentDO->getOrder();
 
-        // TODO is there any better solution to get more details about the order?
-        /** @var Order $order */
-        $order = (new ReflectionProperty($order, 'order'))->getValue($order);
+        $payment = $paymentDO->getPayment();
+        if (!$payment instanceof Payment) {
+            throw new LocalizedException(__('Can not build refund data'));
+        }
 
-        $invoice = $order->getInvoiceCollection()->getFirstItem();
-
+        $invoice = $payment->getData('_tilta_invoice_to_process');
         if (!$invoice instanceof Invoice) {
             throw new LocalizedException(__('Invoice was not found.'));
         }
-
 
         if (empty($invoice->getIncrementId())) {
             $invoice->setIncrementId(
@@ -59,13 +57,13 @@ class CreateInvoiceRequestBuilder implements BuilderInterface
         }
 
         $requestModel = (new CreateInvoiceRequestModel())
-            ->setOrderExternalIds([$order->getIncrementId()])
+            ->setOrderExternalIds([$order->getOrderIncrementId()])
             ->setInvoiceNumber($invoice->getIncrementId())
-            ->setInvoiceExternalId($order->getEntityId())
+            ->setInvoiceExternalId($invoice->getIncrementId())
             ->setAmount($this->amountBuilder->createForInvoice($invoice))
             ->setInvoicedAt(new DateTime())
             ->setBillingAddress($this->addressBuilder->buildForOrderAddress($invoice->getBillingAddress()))
-            ->setLineItems($this->lineItemsBuilder->buildForOrder($order));
+            ->setLineItems($this->lineItemsBuilder->buildForInvoice($invoice));
 
         return [
             'request_model' => $requestModel,

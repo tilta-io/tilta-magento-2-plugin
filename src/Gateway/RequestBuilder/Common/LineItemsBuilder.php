@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Tilta\Payment\Gateway\RequestBuilder\Common;
 
 use Magento\Sales\Api\Data\CreditmemoInterface;
+use Magento\Sales\Api\Data\InvoiceInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Tilta\Payment\Helper\AmountHelper;
 use Tilta\Sdk\Model\Order\LineItem;
@@ -50,6 +51,23 @@ class LineItemsBuilder
                 ->setQuantity((int) $item->getQty())
                 ->setPrice(AmountHelper::toSdk((float) $item->getPrice()))
                 ->setCurrency($creditMemo->getBaseCurrencyCode() ?: 'EUR')
+                ->setCategory('') // TODO should this also be send?
+            ;
+        }
+
+        return $lineItems;
+    }
+
+    public function buildForInvoice(InvoiceInterface $invoice): array
+    {
+        $lineItems = [];
+
+        foreach ($invoice->getItems() as $item) {
+            $lineItems[] = (new LineItem())
+                ->setName((string) ($item->getName() ?: $item->getSku()))
+                ->setQuantity((int) $item->getQty())
+                ->setPrice(AmountHelper::toSdk((float) $item->getPrice()))
+                ->setCurrency($invoice->getBaseCurrencyCode() ?: 'EUR')
                 ->setCategory('') // TODO should this also be send?
             ;
         }

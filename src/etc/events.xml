@@ -21,4 +21,8 @@
     <event name="payment_method_assign_data_tilta">
         <observer name="tilta-assign-data" instance="Tilta\Payment\Observer\TiltaPaymentDataAssignAdditionalData"/>
     </event>
+
+    <event name="sales_order_payment_capture">
+        <observer name="tilta-add-invoice-to-capture" instance="Tilta\Payment\Observer\OnCaptureInvoice"/>
+    </event>
 </config>
