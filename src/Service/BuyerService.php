@@ -12,7 +12,6 @@ namespace Tilta\Payment\Service;
 
 use DateTime;
 use DateTimeInterface;
-use Magento\Catalog\Model\AbstractModel;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
@@ -77,8 +76,9 @@ class BuyerService
 
     public function updateCustomerAddressData(AddressInterface $addressEntity, array $data): void
     {
-        if (is_string($data[Telephone::ATTRIBUTE_CODE] ?? null)) {
+        if (is_string($data[Telephone::ATTRIBUTE_CODE] ?? null) && $data[Telephone::ATTRIBUTE_CODE] !== $addressEntity->getTelephone()) {
             $addressEntity->setTelephone($data[Telephone::ATTRIBUTE_CODE]);
+            $this->customerAddressRepository->save($addressEntity);
         }
 
         //        TODO verify if still necessary
@@ -107,10 +107,6 @@ class BuyerService
         }
 
         $this->repository->save($buyerData);
-
-        if ($addressEntity instanceof AbstractModel && $addressEntity->hasDataChanges()) {
-            $this->customerAddressRepository->save($addressEntity);
-        }
     }
 
     private function createNewCustomerAddressBuyerInstance(AddressInterface $addressEntity): CustomerAddressBuyerInterface
