@@ -81,11 +81,6 @@ class BuyerService
             $this->customerAddressRepository->save($addressEntity);
         }
 
-        //        TODO verify if still necessary
-        //        if (isset($data['salutation'])) {
-        //            $addressEntity->setTelephone($data['salutation']);
-        //        }
-
         $buyerData = $addressEntity->getExtensionAttributes()?->getTiltaBuyer() ?: $this->createNewCustomerAddressBuyerInstance($addressEntity);
 
         $incorporatedAtRaw = $data[CustomerAddressBuyerInterface::INCORPORATED_AT] ?? null;
