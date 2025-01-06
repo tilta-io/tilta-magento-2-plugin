@@ -3,7 +3,8 @@ name: Code Analyse & Unit-Testing
 on:
     push:
         branches:
-            - main
+            - dev
+            - task/*
     pull_request:
 
 env:
