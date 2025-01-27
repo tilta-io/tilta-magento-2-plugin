@@ -9,7 +9,7 @@
                 <fieldset_css>payment-tilta-section</fieldset_css>
                 <frontend_model>Tilta\Payment\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
 
-                <field id="enabled" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="active" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>

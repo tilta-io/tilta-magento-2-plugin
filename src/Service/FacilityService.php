@@ -68,13 +68,15 @@ class FacilityService
 
         $facility = $this->getFacility($address);
         if ($facility instanceof Facility) {
-            $this->updateFacilityOnCustomerAddress($buyerData, $facility);
             return $facility;
         }
 
         throw new LocalizedException(__('Facility got not returned from gateway'));
     }
 
+    /**
+     * @throws NoActiveFacilityFoundException|BuyerNotFoundException
+     */
     public function getFacility(AddressInterface $addressEntity): ?GetFacilityResponseModel
     {
         $extension = $addressEntity->getExtensionAttributes();

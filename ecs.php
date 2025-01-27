@@ -9,6 +9,8 @@ use PhpCsFixer\Fixer\Operator\NotOperatorWithSpaceFixer;
 use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -40,7 +42,13 @@ file that was distributed with this source code.', 'separate' => 'bottom', 'loca
         ],
         PhpdocNoEmptyReturnFixer::class => [
             __DIR__ . '/src/Api',
-        ]
+        ],
+        ArrayListItemNewlineFixer::class => [
+            __DIR__ . '/src/Tests',
+        ],
+        ArrayOpenerAndCloserNewlineFixer::class => [
+            __DIR__ . '/src/Tests',
+        ],
     ]);
 
     $ecsConfig->paths([

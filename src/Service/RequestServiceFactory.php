@@ -17,7 +17,7 @@ use Tilta\Sdk\HttpClient\TiltaClient;
 use Tilta\Sdk\Service\Request\AbstractRequest;
 use Tilta\Sdk\Util\TiltaClientFactory;
 
-final class RequestServiceFactory
+class RequestServiceFactory
 {
     private TiltaClient $client;
 

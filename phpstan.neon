@@ -10,6 +10,8 @@ parameters:
         - src/
     magento:
         magentoRoot: ../../
+    excludePaths:
+        - src/Tests
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#with no value type specified in iterable type array.#'

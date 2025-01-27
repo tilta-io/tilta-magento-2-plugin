@@ -40,7 +40,7 @@ class CreateInvoiceRequestBuilder implements BuilderInterface
 
         $payment = $paymentDO->getPayment();
         if (!$payment instanceof Payment) {
-            throw new LocalizedException(__('Can not build refund data'));
+            throw new LocalizedException(__('Can not build invoice data'));
         }
 
         $invoice = $payment->getData('_tilta_invoice_to_process');

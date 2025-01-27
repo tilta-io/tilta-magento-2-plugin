@@ -1,0 +1,48 @@
+name: Unit & Integration Tests
+on: [ push, pull_request ]
+
+jobs:
+    test:
+        strategy:
+            matrix:
+                magento-version:
+                    - 2.4.6
+                    - 2.4.6-p8
+                    - 2.4.7
+                    - 2.4.7-p3
+                php-version:
+                    - 81
+                    - 82
+                    - 83
+
+                exclude:
+                    -   magento-version: 2.4.6
+                        php-version: 83
+                    -   magento-version: 2.4.6-p8
+                        php-version: 83
+                    -   magento-version: 2.4.7
+                        php-version: 81
+                    -   magento-version: 2.4.7-p3
+                        php-version: 81
+            fail-fast: false
+            max-parallel: 10
+
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Start Docker
+                run: echo "CID=$(docker run --detach michielgerritsen/magento-project-community-edition:php${{ matrix.php-version }}-fpm-magento${{ matrix.magento-version }})" >> $GITHUB_ENV
+
+            -   name: Upload the code into the docker container
+                run: docker cp $(pwd) $CID:/data/extensions/ && docker exec $CID ./install-composer-package tilta/magento-2-payment-module:@dev
+
+            -   name: Install extension
+                run: docker exec $CID ./retry "php bin/magento setup:upgrade --keep-generated && bin/magento set:di:compile"
+
+            -   name: Run unit tests
+                run: docker exec $CID bash -c "/data/vendor/bin/phpunit -c /data/dev/tests/unit/phpunit.xml /data/extensions/${{ github.event.repository.name }}/src/Tests/Unit/ --testdox"
+
+            -   name: Run integration tests
+                run: docker exec $CID bash -c "/data/vendor/bin/phpunit -c /data/dev/tests/integration/phpunit.xml /data/extensions/${{ github.event.repository.name }}/src/Tests/Integration/ --testdox"
+

@@ -13,6 +13,7 @@ namespace Tilta\Payment\Gateway\RequestBuilder;
 
 use DateTime;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Gateway\Helper\SubjectReader;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Api\Data\OrderAddressInterface;
@@ -20,11 +21,10 @@ use Magento\Sales\Model\Order;
 use ReflectionProperty;
 use Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface;
 use Tilta\Payment\Gateway\RequestBuilder\Common\AddressBuilder;
+use Tilta\Payment\Gateway\RequestBuilder\Common\AmountBuilder;
 use Tilta\Payment\Gateway\RequestBuilder\Common\LineItemsBuilder;
-use Tilta\Payment\Helper\AmountHelper;
 use Tilta\Payment\Observer\TiltaPaymentDataAssignAdditionalData;
 use Tilta\Payment\Service\ConfigService;
-use Tilta\Sdk\Model\Amount;
 use Tilta\Sdk\Model\Request\Order\CreateOrderRequestModel;
 
 class CreateOrderRequestBuilder implements BuilderInterface
@@ -32,15 +32,15 @@ class CreateOrderRequestBuilder implements BuilderInterface
     public function __construct(
         private readonly LineItemsBuilder $lineItemsBuilder,
         private readonly AddressBuilder $addressBuilder,
+        private readonly AmountBuilder $amountBuilder,
         private readonly ConfigService $configService,
-        private readonly CustomerAddressBuyerRepositoryInterface $buyerRepository,
-        private readonly SubjectReader $subjectReader
+        private readonly CustomerAddressBuyerRepositoryInterface $buyerRepository
     ) {
     }
 
     public function build(array $buildSubject): array
     {
-        $paymentDO = $this->subjectReader->readPayment($buildSubject);
+        $paymentDO = SubjectReader::readPayment($buildSubject);
         $order = $paymentDO->getOrder();
 
         // TODO is there any better solution to get more details about the order?
@@ -52,10 +52,14 @@ class CreateOrderRequestBuilder implements BuilderInterface
             throw new LocalizedException(__('Billing address is required.'));
         }
 
-        $buyer = $this->buyerRepository->getByCustomerAddressId((int) $billingAddress->getCustomerAddressId());
+        try {
+            $buyer = $this->buyerRepository->getByCustomerAddressId((int) $billingAddress->getCustomerAddressId());
+        } catch (NoSuchEntityException) {
+            $buyer = null;
+        }
 
-        $externalId = $buyer->getBuyerExternalId();
-        if (empty($externalId)) {
+        $externalId = $buyer?->getBuyerExternalId();
+        if (empty($externalId) || $buyer->getFacilityTotalAmount() <= 0) {
             throw new LocalizedException(__('Buyer does not have valid facility.'));
         }
 
@@ -77,12 +81,7 @@ class CreateOrderRequestBuilder implements BuilderInterface
                 ->setPaymentTerm($paymentTerm)
                 ->setOrderedAt((new DateTime($order->getCreatedAt() ?? 'now')))
                 ->setOrderExternalId($order->getIncrementId())
-                ->setAmount(
-                    (new Amount())
-                        ->setCurrency($order->getOrderCurrencyCode() ?: 'EUR')
-                        ->setGross(AmountHelper::toSdk($order->getBaseGrandTotal()))
-                        ->setNet(AmountHelper::toSdk($order->getBaseGrandTotal() - $order->getBaseTaxAmount()))
-                );
+                ->setAmount($this->amountBuilder->createForOrder($order));
 
         if (($shippingAddress = $order->getShippingAddress()) instanceof OrderAddressInterface) {
             $orderRequestModel->setDeliveryAddress(

@@ -17,11 +17,10 @@ use Magento\Quote\Api\Data\CartInterface;
 use Magento\Quote\Model\Quote;
 use Tilta\Payment\Api\CustomerAddressBuyerRepositoryInterface;
 use Tilta\Payment\Api\Data\CustomerAddressBuyerInterface;
-use Tilta\Payment\Helper\AmountHelper;
+use Tilta\Payment\Gateway\RequestBuilder\Common\AmountBuilder;
 use Tilta\Sdk\Exception\GatewayException\Facility\FacilityExceededException;
 use Tilta\Sdk\Exception\GatewayException\Facility\NoActiveFacilityFoundException;
 use Tilta\Sdk\Exception\GatewayException\NotFoundException\BuyerNotFoundException;
-use Tilta\Sdk\Model\Amount;
 use Tilta\Sdk\Model\Request\PaymentTerm\GetPaymentTermsRequestModel;
 use Tilta\Sdk\Model\Response\PaymentTerm\GetPaymentTermsResponseModel;
 use Tilta\Sdk\Service\Request\PaymentTerm\GetPaymentTermsRequest;
@@ -32,7 +31,8 @@ class PaymentTermsService
         private readonly RequestServiceFactory $requestServiceFactory,
         private readonly CustomerAddressBuyerRepositoryInterface $buyerRepository,
         private readonly ConfigService $configService,
-        private readonly FacilityService $facilityService
+        private readonly FacilityService $facilityService,
+        private readonly AmountBuilder $amountBuilder,
     ) {
     }
 
@@ -63,7 +63,7 @@ class PaymentTermsService
      * @throws NoActiveFacilityFoundException
      * @throws FacilityExceededException
      */
-    public function getPaymentTermsForCustomerAddressBuyer(CustomerAddressBuyerInterface $customerAddressBuyer, CartInterface $cart): ?GetPaymentTermsResponseModel
+    private function getPaymentTermsForCustomerAddressBuyer(CustomerAddressBuyerInterface $customerAddressBuyer, CartInterface $cart): ?GetPaymentTermsResponseModel
     {
         if (empty($customerAddressBuyer->getBuyerExternalId())) {
             return null;
@@ -76,12 +76,7 @@ class PaymentTermsService
         $requestModel = (new GetPaymentTermsRequestModel())
             ->setMerchantExternalId($this->configService->getMerchantExternalId())
             ->setBuyerExternalId($customerAddressBuyer->getBuyerExternalId())
-            ->setAmount(
-                (new Amount())
-                    ->setCurrency($cart->getBaseCurrencyCode() ?: 'EUR')
-                    ->setGross(AmountHelper::toSdk((float) $cart->getBaseGrandTotal()))
-                    ->setNet(AmountHelper::toSdk(((float) $cart->getBaseGrandTotal()) - 0)) // TODO use korrekt keys $cart->getTotals()
-            );
+            ->setAmount($this->amountBuilder->createForCart($cart));
 
         try {
             /** @var GetPaymentTermsRequest $service */

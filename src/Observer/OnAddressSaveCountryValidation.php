@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Tilta\Payment\Observer;
 
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
@@ -31,7 +32,12 @@ class OnAddressSaveCountryValidation implements ObserverInterface
             return;
         }
 
-        if ($address->getOrigData()['country_id'] !== $address->getCountryId()
+        $originalData = $address->getOrigData();
+        if (!is_array($originalData) || !isset($originalData[AddressInterface::COUNTRY_ID])) {
+            return;
+        }
+
+        if ($originalData[AddressInterface::COUNTRY_ID] !== $address->getCountryId()
             && !$this->buyerService->canChangeCountry((int) $address->getId())
         ) {
             throw new CountryChangeIsNotAllowedException([$address->getId()]);

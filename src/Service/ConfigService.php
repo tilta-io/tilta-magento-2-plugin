@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
 
 class ConfigService
 {
-    private const CONFIG_ENABLED = 'payment/tilta/enabled';
+    private const CONFIG_ENABLED = 'payment/tilta/active';
 
     private const CONFIG_SANDBOX_ENABLED = 'payment/tilta/sandbox_enabled';
 

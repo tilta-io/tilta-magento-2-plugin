@@ -29,7 +29,6 @@ use Tilta\Payment\Model\CustomerAddressBuyer;
 use Tilta\Sdk\Exception\GatewayException\NotFoundException\BuyerNotFoundException;
 use Tilta\Sdk\Exception\TiltaException;
 use Tilta\Sdk\Model\Address;
-use Tilta\Sdk\Model\Buyer;
 use Tilta\Sdk\Model\ContactPerson;
 use Tilta\Sdk\Model\Request\Buyer\CreateBuyerRequestModel;
 use Tilta\Sdk\Model\Request\Buyer\GetBuyerDetailsRequestModel;
@@ -72,7 +71,7 @@ class BuyerService
             return $externalId;
         }
 
-        return $this->config->getBuyerExternalIdPrefix() . md5(time() . ($address->getCustomerId() . $address->getId()));
+        return $this->config->getBuyerExternalIdPrefix() . md5(random_bytes(8) . ($address->getCustomerId() . $address->getId()));
     }
 
     public function updateCustomerAddressData(AddressInterface $addressEntity, array $data): void
@@ -92,11 +91,11 @@ class BuyerService
             }
         } elseif ($incorporatedAtRaw instanceof DateTimeInterface) {
             $incorporatedAt = $data['incorporatedAt'];
-        } else {
-            throw new LocalizedException(__('Invalid date format'));
         }
 
-        $buyerData->setIncorporatedAt($incorporatedAt->format($buyerData::DATE_FORMAT));
+        if (isset($incorporatedAt) && $incorporatedAt instanceof DateTime) {
+            $buyerData->setIncorporatedAt($incorporatedAt->format($buyerData::DATE_FORMAT));
+        }
 
         if (is_string($data[CustomerAddressBuyerInterface::LEGAL_FORM] ?? null)) {
             $buyerData->setLegalForm($data[CustomerAddressBuyerInterface::LEGAL_FORM]);
@@ -123,7 +122,7 @@ class BuyerService
     /**
      * @throws TiltaException
      */
-    public function upsertBuyer(AddressInterface $addressEntity): Buyer
+    public function upsertBuyer(AddressInterface $addressEntity): void
     {
         $this->validateAdditionalData($addressEntity);
 
@@ -150,8 +149,6 @@ class BuyerService
         $buyerData->setLegalForm((string) $buyer->getLegalForm());
 
         $this->repository->save($buyerData);
-
-        return $buyer;
     }
 
     /**
@@ -191,27 +188,22 @@ class BuyerService
 
         $errors = [];
 
-        // TODO check if it is still required
-        //        if (empty($address->getPrefix())) {
-        //            $errors[] = __('Please provide your salutation.');
-        //        }
-
         if (empty($addressEntity->getTelephone())) {
-            $errors[] = __('Please provide your phone number.');
+            $errors[AddressInterface::TELEPHONE] = __('Please provide your phone number.');
         }
 
         if (empty($addressEntity->getCompany())) {
-            $errors[] = __('Please provide the company name.');
+            $errors[AddressInterface::COMPANY] = __('Please provide the company name.');
         }
 
         $tiltaData = $extension->getTiltaBuyer();
 
         if (empty($tiltaData?->getIncorporatedAt())) {
-            $errors[] = __('Please provide the date of incorporation.');
+            $errors[CustomerAddressBuyerInterface::INCORPORATED_AT] = __('Please provide the date of incorporation.');
         }
 
         if (empty($tiltaData?->getLegalForm())) {
-            $errors[] = __('Please provide the legal form.');
+            $errors[CustomerAddressBuyerInterface::LEGAL_FORM] = __('Please provide the legal form.');
         }
 
         if ($errors !== []) {
@@ -271,8 +263,6 @@ class BuyerService
 
         $requestModel->setContactPersons([
             (new ContactPerson())
-                // TODO check if it is still required
-//                ->setSalutation($this->getMappedSalutationFromAddress($addressEntity))
                 ->setFirstName($addressEntity->getFirstname())
                 ->setLastName($addressEntity->getLastname())
                 ->setEmail($customer->getEmail())
@@ -315,14 +305,11 @@ class BuyerService
     public function canChangeCountry(int $customerAddressId): bool
     {
         try {
-            $buyerData = $this->repository->getByCustomerAddressId((int) $customerAddressId);
-            if (!$buyerData->getFacilityValidUntil()) {
-                return true;
-            }
+            $buyerData = $this->repository->getByCustomerAddressId($customerAddressId);
+
+            return $buyerData->getFacilityValidUntil() === null;
         } catch (NoSuchEntityException) {
             return true;
         }
-
-        return false;
     }
 }

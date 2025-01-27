@@ -28,6 +28,9 @@ class CustomerAddressBuyerRepository implements CustomerAddressBuyerRepositoryIn
     ) {
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     public function getByCustomerAddressId(int $customerAddressId): CustomerAddressBuyerInterface
     {
         /** @var CustomerAddressBuyerInterface $model */
@@ -68,5 +71,14 @@ class CustomerAddressBuyerRepository implements CustomerAddressBuyerRepositoryIn
         }
 
         $this->customerAddressBuyerResource->delete($customerAddressBuyer);
+    }
+
+    public function deleteById(int $customerAddressBuyerId): void
+    {
+        try {
+            $this->delete($this->getByCustomerAddressId($customerAddressBuyerId));
+        } catch (NoSuchEntityException) {
+            // do nothing
+        }
     }
 }

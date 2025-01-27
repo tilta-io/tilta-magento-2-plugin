@@ -26,10 +26,10 @@ use Tilta\Sdk\Model\Request\CreditNote\CreateCreditNoteRequestModel;
 class RefundInvoiceRequestBuilder implements BuilderInterface
 {
     public function __construct(
+        private readonly Manager $sequenceManager,
         private readonly AmountBuilder $amountBuilder,
         private readonly AddressBuilder $addressBuilder,
         private readonly LineItemsBuilder $lineItemsBuilder,
-        private readonly Manager $sequenceManager,
     ) {
     }
 
@@ -44,7 +44,7 @@ class RefundInvoiceRequestBuilder implements BuilderInterface
 
         $creditMemo = $payment->getCreditMemo();
         if (!$creditMemo instanceof Creditmemo) {
-            throw new LocalizedException(__('Can not build refund data'));
+            throw new LocalizedException(__('Credit memo was not found.'));
         }
 
         if (empty($creditMemo->getIncrementId())) {

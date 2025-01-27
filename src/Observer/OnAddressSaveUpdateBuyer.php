@@ -39,13 +39,13 @@ class OnAddressSaveUpdateBuyer implements ObserverInterface
         }
 
         try {
-            $address = $this->addressRepository->getById((int) $address->getId());
             $buyerData = $this->repository->getByCustomerAddressId((int) $address->getId());
         } catch (NoSuchEntityException) {
             return;
         }
 
         try {
+            $address = $this->addressRepository->getById((int) $address->getId());
             $this->buyerService->upsertBuyer($address);
         } catch (Throwable) {
             $this->logger->error('Tilta: Error on updating buyer with id ' . $buyerData->getBuyerExternalId(), [

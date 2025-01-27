@@ -10,6 +10,7 @@ use Rector\Php80\Rector\FunctionLike\MixedTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\StrictStringParamConcatRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
@@ -22,6 +23,9 @@ return static function (RectorConfig $rectorConfig): void {
         MixedTypeRector::class => [
             __DIR__ . '/src/Api/',
         ],
+        StrictStringParamConcatRector::class => [
+            __DIR__ . '/src/Tests/Mock/Url.php'
+        ]
     ]);
 
     // register a single rule

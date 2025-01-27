@@ -25,7 +25,7 @@ class AddressBuilder
             ->setStreet(is_string($street0) ? AddressHelper::getStreetName($street0) ?: '' : '')
             ->setHouseNumber(is_string($street0) ? AddressHelper::getHouseNumber($street0) ?: '' : '')
             ->setPostcode($orderAddress->getPostcode() ?: '')
-            ->setCity($orderAddress->getCity())
+            ->setCity($orderAddress->getCity() ?: '')
             ->setCountry($orderAddress->getCountryId() ?: '')
             ->setAdditional($this->mergeAdditionalAddressLines($orderAddress));
     }

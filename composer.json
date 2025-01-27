@@ -29,11 +29,6 @@
             "Tilta\\Payment\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tilta\\Payment\\Tests\\": "Tests/"
-        }
-    },
     "require": {
         "php": "~8.1 || ~8.2 || ~8.3",
         "tilta-io/tilta-php-sdk": "^2.0",
@@ -46,7 +41,6 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.12",
-        "phpunit/phpunit": "^9.5",
         "rector/rector": "^1.2",
         "symplify/easy-coding-standard": "^12.3",
         "bitexpert/phpstan-magento": "^0.32.0"

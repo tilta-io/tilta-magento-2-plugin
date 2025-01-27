@@ -1,4 +1,4 @@
-name: Code Analyse & Unit-Testing
+name: Code Analyse
 
 on:
     push:
@@ -13,7 +13,7 @@ env:
 
 jobs:
     default:
-        name: Lint / PHPUnit (Magento ${{ matrix.magento-version }}, PHP ${{ matrix.php-version }}
+        name: Lint (Magento ${{ matrix.magento-version }}, PHP ${{ matrix.php-version }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -98,7 +98,3 @@ jobs:
             -   name: "Check Code style (easy-coding-style)"
                 working-directory: ${{ env.EXTENSION_DIR }}
                 run: ./vendor/bin/ecs check
-
-            -   name: "PHPUnit"
-                working-directory: ${{ env.EXTENSION_DIR }}
-                run: ./vendor/bin/phpunit --testdox

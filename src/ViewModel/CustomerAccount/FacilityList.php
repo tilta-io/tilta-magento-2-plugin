@@ -23,11 +23,9 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use RuntimeException;
-use Tilta\Payment\Api\Data\CustomerAddressBuyerInterface;
 use Tilta\Payment\Helper\AmountHelper;
 use Tilta\Payment\Service\FacilityService;
-use Tilta\Sdk\Exception\GatewayException\Facility\NoActiveFacilityFoundException;
-use Tilta\Sdk\Exception\GatewayException\NotFoundException\BuyerNotFoundException;
+use Tilta\Sdk\Exception\TiltaException;
 use Tilta\Sdk\Model\Response\Facility\GetFacilityResponseModel;
 
 class FacilityList implements ArgumentInterface
@@ -73,14 +71,9 @@ class FacilityList implements ArgumentInterface
             throw new RuntimeException('extension of address has not been loaded');
         }
 
-        $buyerData = $extension->getTiltaBuyer();
-        if (!$buyerData instanceof CustomerAddressBuyerInterface) {
-            return null;
-        }
-
         try {
             $facility = $this->facilityService->getFacility($addressEntity);
-        } catch (NoActiveFacilityFoundException|BuyerNotFoundException) {
+        } catch (TiltaException) {
             return null;
         }
 
