@@ -316,7 +316,6 @@ class BuyerServiceTest extends TestCase
         try {
             $service->upsertBuyer($address);
         } catch (MissingBuyerInformationException $missingBuyerInformationException) {
-            self::assertArrayHasKey(AddressInterface::TELEPHONE, $missingBuyerInformationException->getErrorMessages());
             self::assertArrayHasKey(AddressInterface::COMPANY, $missingBuyerInformationException->getErrorMessages());
             self::assertArrayHasKey(CustomerAddressBuyerInterface::INCORPORATED_AT, $missingBuyerInformationException->getErrorMessages());
             self::assertArrayHasKey(CustomerAddressBuyerInterface::LEGAL_FORM, $missingBuyerInformationException->getErrorMessages());

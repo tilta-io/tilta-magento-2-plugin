@@ -68,9 +68,6 @@
                                                                                     <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.telephone</item>
                                                                                     <item name="label" xsi:type="string" translate="true">Telephone</item>
                                                                                     <item name="notice" xsi:type="string" translate="true">Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.</item>
-                                                                                    <item name="validation" xsi:type="array">
-                                                                                        <item name="required-entry" xsi:type="string">true</item>
-                                                                                    </item>
                                                                                     <item name="sortOrder" xsi:type="string">20</item>
                                                                                 </item>
                                                                                 <item name="incorporation_date" xsi:type="array">

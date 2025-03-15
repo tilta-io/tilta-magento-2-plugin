@@ -50,8 +50,7 @@ class RequestPost extends AbstractFacility implements HttpPostActionInterface, C
         $data = [];
         $data[Telephone::ATTRIBUTE_CODE] = $this->request->getParam(Telephone::ATTRIBUTE_CODE, $address->getTelephone());
         if (empty($data[Telephone::ATTRIBUTE_CODE])) {
-            $this->messageManager->addErrorMessage((string) __('Please provide your phone number.'));
-            $isValid = false;
+            unset($data[Telephone::ATTRIBUTE_CODE]);
         }
 
         $data[CustomerAddressBuyer::LEGAL_FORM] = $this->request->getParam(CustomerAddressBuyer::LEGAL_FORM);

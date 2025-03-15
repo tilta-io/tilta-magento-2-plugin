@@ -76,8 +76,9 @@ class BuyerService
 
     public function updateCustomerAddressData(AddressInterface $addressEntity, array $data): void
     {
-        if (is_string($data[Telephone::ATTRIBUTE_CODE] ?? null) && $data[Telephone::ATTRIBUTE_CODE] !== $addressEntity->getTelephone()) {
-            $addressEntity->setTelephone($data[Telephone::ATTRIBUTE_CODE]);
+        $telephoneNumber = $data[Telephone::ATTRIBUTE_CODE] ?? null;
+        if (is_string($telephoneNumber) && !empty($telephoneNumber) && $telephoneNumber !== $addressEntity->getTelephone()) {
+            $addressEntity->setTelephone($telephoneNumber);
             $this->customerAddressRepository->save($addressEntity);
         }
 
@@ -188,10 +189,6 @@ class BuyerService
 
         $errors = [];
 
-        if (empty($addressEntity->getTelephone())) {
-            $errors[AddressInterface::TELEPHONE] = __('Please provide your phone number.');
-        }
-
         if (empty($addressEntity->getCompany())) {
             $errors[AddressInterface::COMPANY] = __('Please provide the company name.');
         }
@@ -266,7 +263,7 @@ class BuyerService
                 ->setFirstName($addressEntity->getFirstname())
                 ->setLastName($addressEntity->getLastname())
                 ->setEmail($customer->getEmail())
-                ->setPhone($addressEntity->getTelephone())
+                ->setPhone(empty($addressEntity->getTelephone()) ? null : $addressEntity->getTelephone())
                 ->setAddress($requestModel->getBusinessAddress())
                 ->setBirthDate(empty($customer->getDob()) ? null : (DateTime::createFromFormat('Y-m-d', $customer->getDob()) ?: null)),
         ]);

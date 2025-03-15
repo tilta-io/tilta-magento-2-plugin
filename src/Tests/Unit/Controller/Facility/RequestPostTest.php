@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Tilta\Payment\Tests\Unit\Block\Checkout;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
-use Magento\Customer\Block\Widget\Telephone;
 use Magento\Customer\Model\Data\Address;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
@@ -104,8 +103,6 @@ class RequestPostTest extends TestCase
     public static function validationDataProvider(): array
     {
         return [
-            [Telephone::ATTRIBUTE_CODE, null, 'Please provide your phone number.'],
-            [Telephone::ATTRIBUTE_CODE, '', 'Please provide your phone number.'],
             [CustomerAddressBuyer::LEGAL_FORM, null, 'Please provide the legal form.'],
             [CustomerAddressBuyer::LEGAL_FORM, '', 'Please provide the legal form.'],
             [CustomerAddressBuyer::INCORPORATED_AT, null, 'Please provide the date of incorporation.'],
@@ -153,7 +150,6 @@ class RequestPostTest extends TestCase
     private function getValidRequestData(): array
     {
         return [
-            Telephone::ATTRIBUTE_CODE => '+49123456879',
             CustomerAddressBuyer::LEGAL_FORM => 'PUBLIC_COMPANY',
             CustomerAddressBuyer::INCORPORATED_AT => '2024-01-05',
         ];
