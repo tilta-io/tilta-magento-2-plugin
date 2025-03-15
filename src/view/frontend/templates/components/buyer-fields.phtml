@@ -17,22 +17,6 @@ $buyerData = $viewModel->getAddress()->getExtensionAttributes()?->getTiltaBuyer(
 $incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::createFromFormat($buyerData::DATE_FORMAT, $buyerData->getIncorporatedAt()) ?: null : null;
 ?>
 <fieldset class="fieldset">
-    <div class="field telephone required">
-        <label for="telephone" class="label">
-            <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
-        </label>
-        <div class="control">
-            <input type="tel"
-                   name="telephone"
-                   id="telephone"
-                   value="<?= $escaper->escapeHtmlAttr((string) $viewModel->getAddress()->getTelephone()) ?>"
-                   title="<?= $escaper->escapeHtmlAttr((string) __('Phone Number')) ?>"
-                   class="input-text"
-            >
-            <p class="tilta-phone-hint"><?= $escaper->escapeHtml((string)__('Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.')) ?></p>
-        </div>
-    </div>
-
     <div class="field required">
         <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>">
             <span><?=__('Legal form')?></span>
@@ -115,6 +99,22 @@ $incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::creat
                     <?php endfor ?>
                 </select>
             </div>
+        </div>
+    </div>
+
+    <div class="field telephone required">
+        <label for="telephone" class="label">
+            <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+        </label>
+        <div class="control">
+            <input type="tel"
+                   name="telephone"
+                   id="telephone"
+                   value="<?= $escaper->escapeHtmlAttr((string) $viewModel->getAddress()->getTelephone()) ?>"
+                   title="<?= $escaper->escapeHtmlAttr((string) __('Phone Number')) ?>"
+                   class="input-text"
+            >
+            <p class="tilta-phone-hint"><?= $escaper->escapeHtml((string)__('Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.')) ?></p>
         </div>
     </div>
 
