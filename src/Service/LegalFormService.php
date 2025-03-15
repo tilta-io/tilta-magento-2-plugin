@@ -40,9 +40,10 @@ class LegalFormService
 
             $options = [];
             foreach ($responseModel->getItems() as $code => $label) {
+                $translationByCode = (string) __($code);
                 $options[] = [
                     'value' => $code,
-                    'label' => __($label),
+                    'label' => $translationByCode !== $code ? $translationByCode : __($label),
                 ];
             }
 
