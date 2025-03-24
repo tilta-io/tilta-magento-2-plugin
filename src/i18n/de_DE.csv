@@ -25,7 +25,7 @@ Close,Schließen
 "COOPERATIVE","Genossenschaft"
 "GOVERNMENT","Staatliche Organisation"
 "OTHER","Andere"
-"Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>.","Der Rechnungskauf wird in Zusammenarbeit mit der Varengold Bank angeboten. Ich bestätige, dass ich die Datenschutzbestimmungen von <a href=""%1"" target=""_blank"">Varengold</a> und <a href=""%2"" target=""_blank"">Tilta</a> gelesen habe und akzeptiere diese."
+"Invoice Payments are offered in partnership with Tilta. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Tilta</a>.","Der Rechnungskauf wird in Zusammenarbeit mit Tilta angeboten. Ich bestätige, dass ich die Datenschutzbestimmungen von <a href=""%1"" target=""_blank"">Tilta</a> gelesen habe und akzeptiere diese."
 "Can not render address","Adresse kann nicht angezeigt werden"
 "Phone Number","Telefonnummer"
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Bitte beachten Sie die korrekte Schreibweise der Telefonnummer. Diese muss mit dem Ländercode beginnen und darf keine Leerzeichen enthalten. Beispiel: +491731010101."

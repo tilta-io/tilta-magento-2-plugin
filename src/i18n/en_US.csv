@@ -25,7 +25,7 @@ Close,Close
 "COOPERATIVE","Cooperative"
 "GOVERNMENT","Government Organization"
 "OTHER","Other"
-"Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>.","Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Varengold</a> and <a href=""%2"" target=""_blank"">Tilta</a>."
+"Invoice Payments are offered in partnership with Tilta. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Tilta</a>.","Invoice Payments are offered in partnership with Tilta. I confirm that I have read and accept the privacy policy of <a href=""%1"" target=""_blank"">Tilta</a>."
 "Can not render address","Can not render address"
 "Phone Number","Phone Number"
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101."

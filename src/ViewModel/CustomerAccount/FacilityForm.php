@@ -43,9 +43,8 @@ class FacilityForm implements ArgumentInterface
     public function getToc(): string
     {
         return (string) __(
-            'Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of <a href="%1" target="_blank">Varengold</a> and <a href="%2" target="_blank">Tilta</a>.',
-            'https://static.tilta.io/data-privacy/buyers/varengold-data-protection-information_v2.7_2021-05-01_de_DE.pdf',
-            'https://static.tilta.io/data-privacy/buyers/tilta-data-protection-information_v1.0_2023-02-17_de_DE.pdf'
+            'Invoice Payments are offered in partnership with Tilta. I confirm that I have read and accept the privacy policy of <a href="%1" target="_blank">Tilta</a>.',
+            'https://static.tilta.io/data-privacy/buyers/tilta-data-protection-information_v2.0_2024-08-15_en_DE.pdf',
         );
     }
 
