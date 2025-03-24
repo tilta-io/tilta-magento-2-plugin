@@ -44,7 +44,7 @@ $incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::creat
 
     <div class="field required" id="tilta-incorporated-at-wrapper" style="display: none;">
         <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day">
-            <span><?= $escaper->escapeHtml((string) __('Business Incorporation date')) ?></span>
+            <span><?= $escaper->escapeHtml((string) __('Business start date')) ?></span>
         </label>
         <div class="control tilta-facility-form__field_incorporated_at">
             <input type="hidden" name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[day]" value="1">

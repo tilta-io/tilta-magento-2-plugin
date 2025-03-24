@@ -31,7 +31,7 @@ Close,Close
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101."
 "Legal form","Legal form"
 "-- Please Select --","-- Please Select --"
-"Business Incorporation date","Business Incorporation date"
+"Business start date","Business start date"
 Day,Day
 Month,Month
 Year,Year
@@ -58,6 +58,6 @@ Advanced,Advanced
 "Unfortunately, you cannot use this payment method. Please contact customer service.","Unfortunately, you cannot use this payment method. Please contact customer service."
 "For utilizing this payment method, please request a credit availability limit from the payment service provider Tilta Fintech GmbH. Once approved, you can continue with your order.","For utilizing this payment method, please request a credit availability limit from the payment service provider Tilta Fintech GmbH. Once approved, you can continue with your order."
 "Legal form","Legal form"
-"Business Incorporation date","Business Incorporation date"
+"Business start date","Business start date"
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101."
 "Unknown error during creating facility","Unknown error during creating facility"
