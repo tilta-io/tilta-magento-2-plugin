@@ -113,15 +113,15 @@ class BuyerServiceTest extends TestCase
         $service->updateCustomerAddressData($address, [
             Telephone::ATTRIBUTE_CODE => '+49123456789',
             CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
-            CustomerAddressBuyerInterface::LEGAL_FORM => 'GmbH',
+            CustomerAddressBuyerInterface::LEGAL_FORM => 'GMBH',
         ]);
 
         $addressBuyerRepo = $objectManager->get(CustomerAddressBuyerRepositoryInterface::class);
         $buyer = $addressBuyerRepo->getByCustomerAddressId((int) $address->getId());
         self::assertEquals((int) $address->getId(), $buyer->getCustomerAddressId());
         self::assertNotNull($buyer->getBuyerExternalId());
-        self::assertEquals('GmbH', $buyer->getLegalForm());
-        self::assertEquals('2024-09-30', $buyer->getIncorporatedAt());
+        self::assertEquals('GMBH', $buyer->getLegalForm());
+        self::assertNull($buyer->getIncorporatedAt(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
         self::assertNull($buyer->getFacilityTotalAmount(), 'facility data should be null');
         self::assertNull($buyer->getFacilityValidUntil(), 'facility data should be null');
     }
@@ -164,7 +164,7 @@ class BuyerServiceTest extends TestCase
         self::assertEquals((int) $address->getId(), $buyer->getCustomerAddressId());
         self::assertStringStartsWith('buyer-external-id-', $buyer->getBuyerExternalId());
         self::assertEquals('test-legal-form', $buyer->getLegalForm());
-        self::assertEquals('2024-09-30', $buyer->getIncorporatedAt());
+        self::assertNull($buyer->getIncorporatedAt(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
         self::assertNotNull($buyer->getFacilityTotalAmount());
         self::assertNotNull($buyer->getFacilityValidUntil());
     }
@@ -207,13 +207,13 @@ class BuyerServiceTest extends TestCase
         $service->updateCustomerAddressData($address, [
             Telephone::ATTRIBUTE_CODE => '+49123456789',
             CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
-            CustomerAddressBuyerInterface::LEGAL_FORM => 'GmbH',
+            CustomerAddressBuyerInterface::LEGAL_FORM => 'GMBH',
         ]);
 
         $getRequest->expects($this->once())->method('execute')->willThrowException(new BuyerNotFoundException('test-123'));
         $updateRequest->expects($this->never())->method('execute');
         $createRequest->expects($this->once())->method('execute')->willReturnCallback(static function (CreateBuyerRequestModel $model) use ($customer): void {
-            self::assertEquals('GmbH', $model->getLegalForm());
+            self::assertEquals('GMBH', $model->getLegalForm());
             self::assertEquals('Test GmbH', $model->getLegalName());
             self::assertEquals('Test GmbH', $model->getTradingName());
             self::assertEquals('test-street', $model->getBusinessAddress()->getStreet());
@@ -276,14 +276,14 @@ class BuyerServiceTest extends TestCase
         $service->updateCustomerAddressData($address, [
             Telephone::ATTRIBUTE_CODE => '+49123456789',
             CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
-            CustomerAddressBuyerInterface::LEGAL_FORM => 'GmbH',
+            CustomerAddressBuyerInterface::LEGAL_FORM => 'GMBH',
         ]);
 
         $getRequest->expects($this->once())->method('execute')->willReturn(new Buyer());
         $createRequest->expects($this->never())->method('execute');
         $updateRequest->expects($this->once())->method('execute')->willReturnCallback(static function (UpdateBuyerRequestModel $model) use ($customer, $buyer): void {
             self::assertEquals($buyer->getBuyerExternalId(), $model->getExternalId());
-            self::assertEquals('GmbH', $model->getLegalForm());
+            self::assertEquals('GMBH', $model->getLegalForm());
             self::assertEquals('Test GmbH', $model->getLegalName());
             self::assertEquals('Test GmbH', $model->getTradingName());
             self::assertEquals('test-street', $model->getBusinessAddress()->getStreet());
@@ -317,7 +317,7 @@ class BuyerServiceTest extends TestCase
             $service->upsertBuyer($address);
         } catch (MissingBuyerInformationException $missingBuyerInformationException) {
             self::assertArrayHasKey(AddressInterface::COMPANY, $missingBuyerInformationException->getErrorMessages());
-            self::assertArrayHasKey(CustomerAddressBuyerInterface::INCORPORATED_AT, $missingBuyerInformationException->getErrorMessages());
+            self::assertArrayNotHasKey(CustomerAddressBuyerInterface::INCORPORATED_AT, $missingBuyerInformationException->getErrorMessages(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
             self::assertArrayHasKey(CustomerAddressBuyerInterface::LEGAL_FORM, $missingBuyerInformationException->getErrorMessages());
             throw $missingBuyerInformationException;
         }

@@ -2,6 +2,7 @@
 /**
  * @var \Magento\Framework\View\Element\Template $block
  * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
  */
 
 use Tilta\Payment\Block\Widget\Telephone;
@@ -41,7 +42,7 @@ $incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::creat
         </div>
     </div>
 
-    <div class="field required">
+    <div class="field required" id="tilta-incorporated-at-wrapper" style="display: none;">
         <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day">
             <span><?= $escaper->escapeHtml((string) __('Business Incorporation date')) ?></span>
         </label>

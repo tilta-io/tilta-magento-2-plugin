@@ -1,11 +1,13 @@
 define([
     'Magento_Ui/js/form/element/abstract',
     'ko',
-    'mage/translate'
+    'mage/translate',
+    'uiRegistry',
 ], function (
     Component,
     ko,
-    $t
+    $t,
+    uiRegistry
 ) {
     'use strict';
 
@@ -20,6 +22,23 @@ define([
         optionsMonth: [...Array(12).keys()].map(i => i + 1),
         optionsYear: [...Array(100).keys()].map((i) => todayYear - i),
 
+        defaults: {
+            listens: {
+                "${ $.provider }:${ $.parentScope }.legal_form": "updateLegalForm"
+            }
+        },
+
+        updateLegalForm(value) {
+            if (value === 'SOLE_TRADER') {
+                this.show();
+                this.required(true);
+            } else {
+                this.hide();
+                this.required(false);
+                this.value('');
+            }
+        },
+
         initObservable: function () {
             this._super();
 
@@ -31,6 +50,13 @@ define([
         },
 
         validate: function () {
+            if (!this.required()) {
+                return {
+                    valid: true,
+                    target: this
+                };
+            }
+
             const value = this.value();
             const isValid = value ? value.match(/^\d{4}-\d{2}-\d{2}$/) : false
 

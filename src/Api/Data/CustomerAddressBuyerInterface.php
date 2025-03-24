@@ -102,10 +102,10 @@ interface CustomerAddressBuyerInterface
     public function getIncorporatedAt(): ?string;
 
     /**
-     * @param string $incorporatedAt
+     * @param string|null $incorporatedAt
      * @return self
      */
-    public function setIncorporatedAt(string $incorporatedAt): self;
+    public function setIncorporatedAt(?string $incorporatedAt = null): self;
 
     /**
      * @return int|null

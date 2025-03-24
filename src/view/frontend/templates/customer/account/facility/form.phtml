@@ -26,7 +26,7 @@ if (!$viewModel instanceof FacilityForm) {
     <form action="<?= $escaper->escapeUrl($block->getUrl('*/*/requestPost', ['id' => $viewModel->getAddress()->getId()])) ?>"
           method="post"
           data-hasrequired="<?php  echo __('* Required Fields') ?>"
-          data-mage-init='{"validation": {}}'>
+          data-mage-init='{"validation": {}, "Tilta_Payment/js/customer/account/buyer-registration-form": {}}'>
 
         <div>
             <?= $block->getChildHtml('fields') ?>

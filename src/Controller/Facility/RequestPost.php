@@ -59,16 +59,18 @@ class RequestPost extends AbstractFacility implements HttpPostActionInterface, C
             $isValid = false;
         }
 
-        $data[CustomerAddressBuyer::INCORPORATED_AT] = $this->request->getParam(CustomerAddressBuyer::INCORPORATED_AT);
-        $incorporatedAt = $data[CustomerAddressBuyer::INCORPORATED_AT];
-        if (is_string($incorporatedAt) && preg_match('#^\d{4}-\d{2}-\d{2}$#', $incorporatedAt)) {
-            $data[CustomerAddressBuyer::INCORPORATED_AT] = $incorporatedAt;
-        } elseif (!is_array($incorporatedAt) || count($incorporatedAt) !== 3 || !isset($incorporatedAt['year'], $incorporatedAt['month'], $incorporatedAt['day'])) {
-            $this->messageManager->addErrorMessage((string) __('Please provide the date of incorporation.'));
-            $isValid = false;
-        } else {
-            $incorporatedAt = sprintf('%02d-%02d-%02d', $incorporatedAt['year'], $incorporatedAt['month'], $incorporatedAt['day']);
-            $data[CustomerAddressBuyer::INCORPORATED_AT] = $incorporatedAt;
+        if ($data[CustomerAddressBuyer::LEGAL_FORM] === 'SOLE_TRADER') {
+            $data[CustomerAddressBuyer::INCORPORATED_AT] = $this->request->getParam(CustomerAddressBuyer::INCORPORATED_AT);
+            $incorporatedAt = $data[CustomerAddressBuyer::INCORPORATED_AT];
+            if (is_string($incorporatedAt) && preg_match('#^\d{4}-\d{2}-\d{2}$#', $incorporatedAt)) {
+                $data[CustomerAddressBuyer::INCORPORATED_AT] = $incorporatedAt;
+            } elseif (!is_array($incorporatedAt) || count($incorporatedAt) !== 3 || !isset($incorporatedAt['year'], $incorporatedAt['month'], $incorporatedAt['day'])) {
+                $this->messageManager->addErrorMessage((string) __('Please provide the date of incorporation.'));
+                $isValid = false;
+            } else {
+                $incorporatedAt = sprintf('%02d-%02d-%02d', $incorporatedAt['year'], $incorporatedAt['month'], $incorporatedAt['day']);
+                $data[CustomerAddressBuyer::INCORPORATED_AT] = $incorporatedAt;
+            }
         }
 
         if (!$isValid) {

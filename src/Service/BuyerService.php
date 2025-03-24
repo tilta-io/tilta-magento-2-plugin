@@ -84,18 +84,22 @@ class BuyerService
 
         $buyerData = $addressEntity->getExtensionAttributes()?->getTiltaBuyer() ?: $this->createNewCustomerAddressBuyerInstance($addressEntity);
 
-        $incorporatedAtRaw = $data[CustomerAddressBuyerInterface::INCORPORATED_AT] ?? null;
-        if (is_string($incorporatedAtRaw) && preg_match('#^\d{4}-\d{2}-\d{2}$#', $incorporatedAtRaw)) {
-            $incorporatedAt = DateTime::createFromFormat('Y-m-d', $incorporatedAtRaw);
-            if ($incorporatedAt === false) {
-                throw new LocalizedException(__('Invalid date format'));
+        if (($data[CustomerAddressBuyerInterface::LEGAL_FORM] ?? null) === 'SOLE_TRADER') {
+            $incorporatedAtRaw = $data[CustomerAddressBuyerInterface::INCORPORATED_AT] ?? null;
+            if (is_string($incorporatedAtRaw) && preg_match('#^\d{4}-\d{2}-\d{2}$#', $incorporatedAtRaw)) {
+                $incorporatedAt = DateTime::createFromFormat('Y-m-d', $incorporatedAtRaw);
+                if ($incorporatedAt === false) {
+                    throw new LocalizedException(__('Invalid date format'));
+                }
+            } elseif ($incorporatedAtRaw instanceof DateTimeInterface) {
+                $incorporatedAt = $data['incorporatedAt'];
             }
-        } elseif ($incorporatedAtRaw instanceof DateTimeInterface) {
-            $incorporatedAt = $data['incorporatedAt'];
-        }
 
-        if (isset($incorporatedAt) && $incorporatedAt instanceof DateTime) {
-            $buyerData->setIncorporatedAt($incorporatedAt->format($buyerData::DATE_FORMAT));
+            if (isset($incorporatedAt) && $incorporatedAt instanceof DateTime) {
+                $buyerData->setIncorporatedAt($incorporatedAt->format($buyerData::DATE_FORMAT));
+            }
+        } else {
+            $buyerData->setIncorporatedAt(null);
         }
 
         if (is_string($data[CustomerAddressBuyerInterface::LEGAL_FORM] ?? null)) {
@@ -195,7 +199,7 @@ class BuyerService
 
         $tiltaData = $extension->getTiltaBuyer();
 
-        if (empty($tiltaData?->getIncorporatedAt())) {
+        if ($tiltaData?->getLegalForm() === 'SOLE_TRADER' && empty($tiltaData->getIncorporatedAt())) {
             $errors[CustomerAddressBuyerInterface::INCORPORATED_AT] = __('Please provide the date of incorporation.');
         }
 

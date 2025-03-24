@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Tilta\Payment\Tests\Unit\Block\Checkout;
 
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Model\Data\Address;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\RequestInterface;
@@ -68,7 +69,9 @@ class RequestPostTest extends TestCase
 
         $this->messageManager->expects($this->never())->method('addErrorMessage');
         $this->messageManager->expects($this->once())->method('addSuccessMessage');
-        $this->buyerService->expects($this->once())->method('updateCustomerAddressData');
+        $this->buyerService->expects($this->once())->method('updateCustomerAddressData')->willReturnCallback(static function (AddressInterface $address, array $data): void {
+            self::assertArrayNotHasKey(CustomerAddressBuyer::INCORPORATED_AT, $data, 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
+        });
         $this->facilityService->expects($this->once())->method('createFacilityForBuyerIfNotExist');
 
         $requestData = $this->getValidRequestData();
@@ -105,18 +108,13 @@ class RequestPostTest extends TestCase
         return [
             [CustomerAddressBuyer::LEGAL_FORM, null, 'Please provide the legal form.'],
             [CustomerAddressBuyer::LEGAL_FORM, '', 'Please provide the legal form.'],
-            [CustomerAddressBuyer::INCORPORATED_AT, null, 'Please provide the date of incorporation.'],
-            [CustomerAddressBuyer::INCORPORATED_AT, '', 'Please provide the date of incorporation.'],
-            [CustomerAddressBuyer::INCORPORATED_AT, [], 'Please provide the date of incorporation.'],
-            [CustomerAddressBuyer::INCORPORATED_AT, ['abc', 'def', 'ghi'], 'Please provide the date of incorporation.'],
-            [CustomerAddressBuyer::INCORPORATED_AT, '2024-0-0', 'Please provide the date of incorporation.'],
         ];
     }
 
     /**
      * @dataProvider incorporatedAtDataProvider
      */
-    public function testIncorporatedAt(mixed $value): void
+    public function testIfFullIncorporatedAt(mixed $value): void
     {
         /** @var Address $address */
         $address = (new ObjectManager($this))->getObject(Address::class);
@@ -128,11 +126,16 @@ class RequestPostTest extends TestCase
 
         $this->messageManager->expects($this->never())->method('addErrorMessage');
         $this->messageManager->expects($this->once())->method('addSuccessMessage');
-        $this->buyerService->expects($this->once())->method('updateCustomerAddressData');
+        $this->buyerService->expects($this->once())->method('updateCustomerAddressData')->willReturnCallback(static function (AddressInterface $address, array $data): void {
+            self::assertArrayHasKey(CustomerAddressBuyer::INCORPORATED_AT, $data);
+            self::assertEquals('2024-01-31', $data[CustomerAddressBuyer::INCORPORATED_AT]);
+        });
         $this->facilityService->expects($this->once())->method('createFacilityForBuyerIfNotExist');
 
-        $requestData = $this->getValidRequestData();
-        $requestData[CustomerAddressBuyer::INCORPORATED_AT] = $value;
+        $requestData = [
+            CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
+            CustomerAddressBuyer::INCORPORATED_AT => $value,
+        ];
         $this->request->setParams($requestData);
         $result = $controller->execute();
         self::assertInstanceOf(Redirect::class, $result);
@@ -147,11 +150,45 @@ class RequestPostTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider missingIncorporatedAtDataProvider
+     */
+    public function testMissingIncorporatedAtValidation(string $field, mixed $value): void
+    {
+        /** @var Address $address */
+        $address = (new ObjectManager($this))->getObject(Address::class);
+        $address->setCustomerId(1);
+        $this->addressRepository->method('getById')->willReturn($address);
+        $this->customerSession->method('getCustomerId')->willReturn(1);
+
+        $controller = new RequestPost($this->addressRepository, $this->customerSession, $this->request, $this->messageManager, $this->buyerService, $this->facilityService, $this->redirectFactory);
+
+        $this->messageManager->expects($this->exactly(1))->method('addErrorMessage')->with('Please provide the date of incorporation.');
+        $requestData = [
+            CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
+            $field => $value,
+        ];
+        $this->request->setParams($requestData);
+        $result = $controller->execute();
+        self::assertInstanceOf(Redirect::class, $result);
+        self::assertEquals('*/*/request', $result->getUrl());
+    }
+
+    public static function missingIncorporatedAtDataProvider(): array
+    {
+        return [
+            ['incorporatedAtDay', 99],
+            ['incorporatedAtMonth', null],
+            ['incorporatedAtMonth', 99],
+            ['incorporatedAtYear', null],
+            ['incorporatedAtYear', 0],
+        ];
+    }
+
     private function getValidRequestData(): array
     {
         return [
             CustomerAddressBuyer::LEGAL_FORM => 'PUBLIC_COMPANY',
-            CustomerAddressBuyer::INCORPORATED_AT => '2024-01-05',
         ];
     }
 }
