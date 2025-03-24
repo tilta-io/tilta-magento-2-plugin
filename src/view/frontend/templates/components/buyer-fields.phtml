@@ -47,25 +47,7 @@ $incorporatedAtDate = !empty($buyerData?->getIncorporatedAt()) ? DateTime::creat
             <span><?= $escaper->escapeHtml((string) __('Business Incorporation date')) ?></span>
         </label>
         <div class="control tilta-facility-form__field_incorporated_at">
-            <div>
-                <label for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day"><?= $escaper->escapeHtml((string) __('Day')) ?></label>
-                <select id="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_day"
-                        name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[day]"
-                        title="<?= __('Day') ?>"
-                        required
-                >
-                    <?php if ($incorporatedAtDate === null): ?>
-                        <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
-                    <?php endif ?>
-                    <?php for ($i = 1; $i <= 31; $i++): ?>
-                        <option value="<?= $i ?>"
-                                <?= (int)$incorporatedAtDate?->format('d') === $i ? 'selected="selected"' : '' ?>
-                        >
-                            <?= $i ?>
-                        </option>
-                    <?php endfor ?>
-                </select>
-            </div>
+            <input type="hidden" name="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>[day]" value="1">
             <div>
                 <label for="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_month"><?= $escaper->escapeHtml((string) __('Month')) ?></label>
                 <select id="<?= /** @noEscape */ CustomerAddressBuyer::INCORPORATED_AT ?>_month"
