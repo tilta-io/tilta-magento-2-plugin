@@ -113,6 +113,7 @@ class BuyerServiceTest extends TestCase
         $service->updateCustomerAddressData($address, [
             Telephone::ATTRIBUTE_CODE => '+49123456789',
             CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
+            CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION => 'OTHER',
             CustomerAddressBuyerInterface::LEGAL_FORM => 'GMBH',
         ]);
 
@@ -122,6 +123,7 @@ class BuyerServiceTest extends TestCase
         self::assertNotNull($buyer->getBuyerExternalId());
         self::assertEquals('GMBH', $buyer->getLegalForm());
         self::assertNull($buyer->getIncorporatedAt(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
+        self::assertNull($buyer->getSoleTraderSalutation(), 'salutation should be empty, because legal-form is not SOLE_TRADER');
         self::assertNull($buyer->getFacilityTotalAmount(), 'facility data should be null');
         self::assertNull($buyer->getFacilityValidUntil(), 'facility data should be null');
     }
@@ -151,6 +153,7 @@ class BuyerServiceTest extends TestCase
         $service->updateCustomerAddressData($address, [
             Telephone::ATTRIBUTE_CODE => '+49123456789',
             CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
+            CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION => 'OTHER',
             CustomerAddressBuyerInterface::LEGAL_FORM => 'test-legal-form',
         ]);
 
@@ -165,6 +168,7 @@ class BuyerServiceTest extends TestCase
         self::assertStringStartsWith('buyer-external-id-', $buyer->getBuyerExternalId());
         self::assertEquals('test-legal-form', $buyer->getLegalForm());
         self::assertNull($buyer->getIncorporatedAt(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
+        self::assertNull($buyer->getSoleTraderSalutation(), 'salutation should be empty, because legal-form is not SOLE_TRADER');
         self::assertNotNull($buyer->getFacilityTotalAmount());
         self::assertNotNull($buyer->getFacilityValidUntil());
     }
@@ -230,6 +234,7 @@ class BuyerServiceTest extends TestCase
             self::assertEquals($customer->getEmail(), $contactPerson->getEmail());
             self::assertEquals('+49123456789', $contactPerson->getPhone());
             self::assertEquals($model->getBusinessAddress(), $contactPerson->getAddress());
+            self::assertNull($contactPerson->getSalutation(), 'salutation should be empty, because legal-form is not SOLE_TRADER');
         });
 
         $service->upsertBuyer($address);
@@ -250,7 +255,7 @@ class BuyerServiceTest extends TestCase
         ]]], as: 'customer'),
         DataFixture(BuyerFixture::class, [CustomerAddressBuyerInterface::CUSTOMER_ADDRESS_ID => '$customer.default_billing$'], as: 'buyer'),
     ]
-    public function testUpsertBuyerCreatesUpdateBuyer(): void
+    public function testUpsertBuyerUpdateBuyer(): void
     {
         $objectManager = ObjectManager::getInstance();
         /** @var \Magento\Customer\Model\Customer $customer */
@@ -300,6 +305,7 @@ class BuyerServiceTest extends TestCase
             self::assertEquals($customer->getEmail(), $contactPerson->getEmail());
             self::assertEquals('+49123456789', $contactPerson->getPhone());
             self::assertEquals($model->getBusinessAddress(), $contactPerson->getAddress());
+            self::assertNull($contactPerson->getSalutation(), 'salutation should be empty, because legal-form is not SOLE_TRADER');
         });
 
         $service->upsertBuyer($address);
@@ -318,6 +324,7 @@ class BuyerServiceTest extends TestCase
         } catch (MissingBuyerInformationException $missingBuyerInformationException) {
             self::assertArrayHasKey(AddressInterface::COMPANY, $missingBuyerInformationException->getErrorMessages());
             self::assertArrayNotHasKey(CustomerAddressBuyerInterface::INCORPORATED_AT, $missingBuyerInformationException->getErrorMessages(), 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
+            self::assertArrayNotHasKey(CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION, $missingBuyerInformationException->getErrorMessages(), 'salutation should be empty, because legal-form is not SOLE_TRADER');
             self::assertArrayHasKey(CustomerAddressBuyerInterface::LEGAL_FORM, $missingBuyerInformationException->getErrorMessages());
             throw $missingBuyerInformationException;
         }
@@ -328,5 +335,60 @@ class BuyerServiceTest extends TestCase
         $objectManager = ObjectManager::getInstance();
         $result = $objectManager->get(BuyerService::class)->canChangeCountry(99999999);
         self::assertTrue($result);
+    }
+
+    #[
+        DataFixture(Customer::class, [CustomerInterface::KEY_ADDRESSES => [[
+            AddressInterface::FIRSTNAME => 'test-firstname',
+            AddressInterface::LASTNAME => 'test-lastname',
+            AddressInterface::TELEPHONE => 'test-phone',
+            AddressInterface::COMPANY => 'Test GmbH',
+            AddressInterface::STREET => ['test-street 46'],
+            AddressInterface::COUNTRY_ID => 'DE',
+            AddressInterface::REGION_ID => null,
+            AddressInterface::POSTCODE => '45678',
+            AddressInterface::CITY => 'test-city',
+            AddressInterface::DEFAULT_BILLING => true,
+        ]]], as: 'customer'),
+    ]
+    public function testUpsertBuyerSendSoleTraderData(): void
+    {
+        $objectManager = ObjectManager::getInstance();
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = DataFixtureStorageManager::getStorage()->get('customer');
+        $addressRepo = $objectManager->get(AddressRepositoryInterface::class);
+        $address = $addressRepo->getById((int) $customer->getDefaultBillingAddress()->getId());
+
+        $customerAddressRepo = $this->createMock(AddressRepositoryInterface::class);
+        $requestServiceFactory = $this->createMock(RequestServiceFactory::class);
+        $requestServiceFactory->method('get')->willReturnMap([
+            [GetBuyerDetailsRequest::class, $getRequest = $this->createMock(GetBuyerDetailsRequest::class)],
+            [CreateBuyerRequest::class, $createRequest = $this->createMock(CreateBuyerRequest::class)],
+            [UpdateBuyerRequest::class, $updateRequest = $this->createMock(UpdateBuyerRequest::class)],
+        ]);
+
+        $service = $objectManager->create(BuyerService::class, [
+            'customerAddressRepository' => $customerAddressRepo,
+            'requestServiceFactory' => $requestServiceFactory,
+        ]);
+
+        $service->updateCustomerAddressData($address, [
+            Telephone::ATTRIBUTE_CODE => '+49123456789',
+            CustomerAddressBuyerInterface::INCORPORATED_AT => '2024-09-30',
+            CustomerAddressBuyerInterface::LEGAL_FORM => 'SOLE_TRADER',
+            CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION => 'MR',
+        ]);
+
+        $getRequest->expects($this->once())->method('execute')->willThrowException(new BuyerNotFoundException('test-123'));
+        $updateRequest->expects($this->never())->method('execute');
+        $createRequest->expects($this->once())->method('execute')->willReturnCallback(static function (CreateBuyerRequestModel $model) use ($customer): void {
+            self::assertCount(1, $model->getContactPersons());
+            self::assertContainsOnlyInstancesOf(ContactPerson::class, $model->getContactPersons());
+            $contactPerson = $model->getContactPersons()[0];
+            self::assertEquals('MR', $contactPerson->getSalutation());
+            self::assertEquals('2024-09-30', $model->getIncorporatedAt()?->format('Y-m-d'));
+        });
+
+        $service->upsertBuyer($address);
     }
 }

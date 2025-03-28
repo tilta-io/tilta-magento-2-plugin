@@ -33,6 +33,12 @@
                         </arguments>
                     </block>
 
+                    <block name="tilta.facility.form.salutation" as="salutation" template="Tilta_Payment::components/buyer-fields/salutation.phtml">
+                        <arguments>
+                            <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                        </arguments>
+                    </block>
+
                     <block name="tilta.facility.form.telephone" as="telephone" template="Tilta_Payment::components/buyer-fields/telephone.phtml">
                         <arguments>
                             <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>

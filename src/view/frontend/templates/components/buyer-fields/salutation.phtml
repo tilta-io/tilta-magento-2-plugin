@@ -1,0 +1,36 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityForm) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+$address = $viewModel->getAddress();
+?>
+
+<div class="field field-name-prefix sole_trader_salutation required" id="tilta-salutation-wrapper" style="display: none;">
+    <label for="sole_trader_salutation" class="label">
+        <span><?= $escaper->escapeHtml(__('Salutation')) ?></span>
+    </label>
+    <div class="control">
+        <select id="sole_trader_salutation"
+                name="sole_trader_salutation"
+                title="<?= $escaper->escapeHtmlAttr(__('Salutation')) ?>"
+        >
+            <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+            <?php foreach ($viewModel->getSalutationOptions() as $_option): ?>
+                <option value="<?= $escaper->escapeHtmlAttr($_option['value']) ?>"
+                    <?php if ($address->getPrefix() === $_option['value']): ?>
+                        selected="selected"<?php endif; ?>>
+                    <?= $escaper->escapeHtml($_option['label']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>

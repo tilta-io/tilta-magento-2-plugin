@@ -71,6 +71,12 @@ class RequestPost extends AbstractFacility implements HttpPostActionInterface, C
                 $incorporatedAt = sprintf('%02d-%02d-%02d', $incorporatedAt['year'], $incorporatedAt['month'], $incorporatedAt['day']);
                 $data[CustomerAddressBuyer::INCORPORATED_AT] = $incorporatedAt;
             }
+
+            $data[CustomerAddressBuyer::SOLE_TRADER_SALUTATION] = $this->request->getParam(CustomerAddressBuyer::SOLE_TRADER_SALUTATION);
+            if (!is_string($data[CustomerAddressBuyer::SOLE_TRADER_SALUTATION]) || empty($data[CustomerAddressBuyer::SOLE_TRADER_SALUTATION])) {
+                $this->messageManager->addErrorMessage((string) __('Please provide the salutation of the sole trader.'));
+                $isValid = false;
+            }
         }
 
         if (!$isValid) {

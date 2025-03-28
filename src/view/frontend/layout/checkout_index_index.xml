@@ -46,7 +46,6 @@
                                                                                     <item name="config" xsi:type="array">
                                                                                         <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
                                                                                         <item name="template" xsi:type="string">ui/form/field</item>
-                                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
                                                                                     </item>
                                                                                     <!-- options got added by layout processor -->
                                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
@@ -70,12 +69,29 @@
                                                                                     <item name="notice" xsi:type="string" translate="true">Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.</item>
                                                                                     <item name="sortOrder" xsi:type="string">20</item>
                                                                                 </item>
+                                                                                <item name="sole_trader_salutation" xsi:type="array">
+                                                                                    <item name="component" xsi:type="string">Tilta_Payment/js/form/element/salutation</item>
+                                                                                    <item name="config" xsi:type="array">
+                                                                                        <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
+                                                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">Tilta_Payment/form/element/salutation</item>
+                                                                                        <item name="visible" xsi:type="boolean">false</item>
+                                                                                    </item>
+                                                                                    <item name="provider" xsi:type="string">checkoutProvider</item>
+                                                                                    <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.sole_trader_salutation</item>
+                                                                                    <item name="label" xsi:type="string" translate="true">Salutation</item>
+                                                                                    <item name="validation" xsi:type="array">
+                                                                                        <item name="required-entry" xsi:type="string">true</item>
+                                                                                    </item>
+                                                                                    <item name="sortOrder" xsi:type="string">30</item>
+                                                                                </item>
                                                                                 <item name="incorporation_date" xsi:type="array">
                                                                                     <item name="component" xsi:type="string">Tilta_Payment/js/form/element/incorporation_date</item>
                                                                                     <item name="config" xsi:type="array">
                                                                                         <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
                                                                                         <item name="template" xsi:type="string">ui/form/field</item>
                                                                                         <item name="elementTmpl" xsi:type="string">Tilta_Payment/form/element/incorporation_date</item>
+                                                                                        <item name="visible" xsi:type="boolean">false</item>
                                                                                     </item>
                                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                                     <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.incorporation_date</item>
@@ -83,7 +99,7 @@
                                                                                     <item name="validation" xsi:type="array">
                                                                                         <item name="required-entry" xsi:type="string">true</item>
                                                                                     </item>
-                                                                                    <item name="sortOrder" xsi:type="string">20</item>
+                                                                                    <item name="sortOrder" xsi:type="string">40</item>
                                                                                 </item>
                                                                                 <item name="toc" xsi:type="array">
                                                                                     <item name="component" xsi:type="string">Magento_Ui/js/form/element/boolean</item>

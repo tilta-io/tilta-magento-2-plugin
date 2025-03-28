@@ -15,6 +15,8 @@ use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Framework\Stdlib\ArrayManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
+use Tilta\Payment\Api\Data\CustomerAddressBuyerInterface;
+use Tilta\Payment\Helper\SalutationHelper;
 use Tilta\Payment\Service\LegalFormService;
 
 class LayoutProcessor implements LayoutProcessorInterface
@@ -22,6 +24,7 @@ class LayoutProcessor implements LayoutProcessorInterface
     public function __construct(
         private readonly ArrayManager $arrayManager,
         private readonly LegalFormService $legalFormService,
+        private readonly SalutationHelper $salutationHelper,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -33,10 +36,18 @@ class LayoutProcessor implements LayoutProcessorInterface
             return $jsLayout;
         }
 
-        try {
-            $jsLayout = $this->arrayManager->set($path . '/children/legal_form/options', $jsLayout, $this->legalFormService->getLegalForms());
-        } catch (Throwable $throwable) {
-            $this->logger->error('Tilta: Error fetching legal forms: ' . $throwable->getMessage());
+        $legalFormOptionPath = $this->arrayManager->findPath(CustomerAddressBuyerInterface::LEGAL_FORM, $jsLayout, $path);
+        if (is_string($legalFormOptionPath) && $this->arrayManager->get($legalFormOptionPath, $jsLayout)) {
+            try {
+                $jsLayout = $this->arrayManager->set($legalFormOptionPath . '/options', $jsLayout, $this->legalFormService->getLegalForms());
+            } catch (Throwable $throwable) {
+                $this->logger->error('Tilta: Error fetching legal forms: ' . $throwable->getMessage());
+            }
+        }
+
+        $salutationPath = $this->arrayManager->findPath(CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION, $jsLayout, $path);
+        if (is_string($salutationPath) && $this->arrayManager->get($salutationPath, $jsLayout)) {
+            $jsLayout = $this->arrayManager->set($salutationPath . '/options', $jsLayout, $this->salutationHelper->getSalutationOptions());
         }
 
         return $jsLayout;

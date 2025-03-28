@@ -8,6 +8,7 @@
         <column xsi:type="varchar" length="255" name="buyer_external_id" nullable="false"/>
         <column xsi:type="varchar" length="255" name="legal_form" nullable="false"/>
         <column xsi:type="date" name="incorporated_at" nullable="true"/>
+        <column xsi:type="varchar" length="5" name="sole_trader_salutation" nullable="true"/>
         <column xsi:type="datetime" name="facility_valid_until" nullable="true"/>
         <column xsi:type="int" name="facility_total_amount" unsigned="true" nullable="true"/>
         <column xsi:type="datetime" name="created_at" nullable="false"/>

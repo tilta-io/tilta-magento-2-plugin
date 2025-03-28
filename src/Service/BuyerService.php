@@ -98,8 +98,13 @@ class BuyerService
             if (isset($incorporatedAt) && $incorporatedAt instanceof DateTime) {
                 $buyerData->setIncorporatedAt($incorporatedAt->format($buyerData::DATE_FORMAT));
             }
+
+            if (isset($data[CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION]) && is_string($data[CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION])) {
+                $buyerData->setSoleTraderSalutation($data[CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION]);
+            }
         } else {
             $buyerData->setIncorporatedAt(null);
+            $buyerData->setSoleTraderSalutation(null);
         }
 
         if (is_string($data[CustomerAddressBuyerInterface::LEGAL_FORM] ?? null)) {
@@ -199,8 +204,14 @@ class BuyerService
 
         $tiltaData = $extension->getTiltaBuyer();
 
-        if ($tiltaData?->getLegalForm() === 'SOLE_TRADER' && empty($tiltaData->getIncorporatedAt())) {
-            $errors[CustomerAddressBuyerInterface::INCORPORATED_AT] = __('Please provide the date of incorporation.');
+        if ($tiltaData?->getLegalForm() === 'SOLE_TRADER') {
+            if (empty($tiltaData->getIncorporatedAt())) {
+                $errors[CustomerAddressBuyerInterface::INCORPORATED_AT] = __('Please provide the date of incorporation.');
+            }
+
+            if (empty($tiltaData->getSoleTraderSalutation())) {
+                $errors[CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION] = __('Please provide the salutation of the sole trader.');
+            }
         }
 
         if (empty($tiltaData?->getLegalForm())) {
@@ -263,7 +274,7 @@ class BuyerService
         }
 
         $requestModel->setContactPersons([
-            (new ContactPerson())
+            $contactPerson = (new ContactPerson())
                 ->setFirstName($addressEntity->getFirstname())
                 ->setLastName($addressEntity->getLastname())
                 ->setEmail($customer->getEmail())
@@ -271,6 +282,11 @@ class BuyerService
                 ->setAddress($requestModel->getBusinessAddress())
                 ->setBirthDate(empty($customer->getDob()) ? null : (DateTime::createFromFormat('Y-m-d', $customer->getDob()) ?: null)),
         ]);
+
+        if ($tiltaData->getLegalForm() === 'SOLE_TRADER' && !empty($tiltaData->getSoleTraderSalutation())) {
+            // please note the special-case: sole-trader with employees: the employee got the salutation of the b2b-customer
+            $contactPerson->setSalutation($tiltaData->getSoleTraderSalutation());
+        }
 
         $this->eventManager->dispatch($eventName, [
             'customer' => $customer,

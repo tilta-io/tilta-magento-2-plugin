@@ -44,6 +44,7 @@ class CreditFacilityManagement implements CreditFacilityManagementInterface
             Telephone::ATTRIBUTE_CODE => $additionalData->getTelephone(),
             CustomerAddressBuyer::LEGAL_FORM => $additionalData->getLegalForm(),
             CustomerAddressBuyer::INCORPORATED_AT => $additionalData->getIncorporationDate(),
+            CustomerAddressBuyer::SOLE_TRADER_SALUTATION => $additionalData->getSoleTraderSalutation(),
         ]);
 
         try {

@@ -21,6 +21,8 @@ class CreditFacilityRequest implements RequestInterface
 
     private string $incorporationDate;
 
+    private ?string $soleTraderSalutation = null;
+
     public function getTelephone(): string
     {
         return $this->telephone;
@@ -39,6 +41,16 @@ class CreditFacilityRequest implements RequestInterface
     public function setLegalForm(string $legalForm): void
     {
         $this->legalForm = $legalForm;
+    }
+
+    public function getSoleTraderSalutation(): ?string
+    {
+        return $this->soleTraderSalutation;
+    }
+
+    public function setSoleTraderSalutation(?string $soleTraderSalutation): void
+    {
+        $this->soleTraderSalutation = $soleTraderSalutation;
     }
 
     public function getIncorporationDate(): string

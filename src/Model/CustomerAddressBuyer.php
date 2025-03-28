@@ -84,6 +84,16 @@ class CustomerAddressBuyer extends AbstractModel implements CustomerAddressBuyer
         return $this->getData(self::FACILITY_VALID_UNTIL);
     }
 
+    public function setSoleTraderSalutation(?string $soleTraderSalutation): CustomerAddressBuyerInterface
+    {
+        return $this->setData(self::SOLE_TRADER_SALUTATION, $soleTraderSalutation);
+    }
+
+    public function getSoleTraderSalutation(): ?string
+    {
+        return $this->getData(self::SOLE_TRADER_SALUTATION);
+    }
+
     public function setFacilityValidUntil(?string $validUntil): CustomerAddressBuyerInterface
     {
         if (!empty($validUntil) && !DateTime::createFromFormat(self::DATETIME_FORMAT, $validUntil)) {

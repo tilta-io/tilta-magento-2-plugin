@@ -46,6 +46,11 @@ interface CustomerAddressBuyerInterface
     /**
      * @var string
      */
+    public const SOLE_TRADER_SALUTATION = 'sole_trader_salutation';
+
+    /**
+     * @var string
+     */
     public const FACILITY_TOTAL_AMOUNT = 'facility_total_amount';
 
     /**
@@ -106,6 +111,17 @@ interface CustomerAddressBuyerInterface
      * @return self
      */
     public function setIncorporatedAt(?string $incorporatedAt = null): self;
+
+    /**
+     * @return string|null
+     */
+    public function getSoleTraderSalutation(): ?string;
+
+    /**
+     * @param string|null $soleTraderSalutation
+     * @return self
+     */
+    public function setSoleTraderSalutation(?string $soleTraderSalutation): self;
 
     /**
      * @return int|null

@@ -71,6 +71,7 @@ class RequestPostTest extends TestCase
         $this->messageManager->expects($this->once())->method('addSuccessMessage');
         $this->buyerService->expects($this->once())->method('updateCustomerAddressData')->willReturnCallback(static function (AddressInterface $address, array $data): void {
             self::assertArrayNotHasKey(CustomerAddressBuyer::INCORPORATED_AT, $data, 'incorporated-at should be empty, because legal-form is not SOLE_TRADER');
+            self::assertArrayNotHasKey(CustomerAddressBuyer::SOLE_TRADER_SALUTATION, $data, 'salutation should be empty, because legal-form is not SOLE_TRADER');
         });
         $this->facilityService->expects($this->once())->method('createFacilityForBuyerIfNotExist');
 
@@ -135,6 +136,7 @@ class RequestPostTest extends TestCase
         $requestData = [
             CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
             CustomerAddressBuyer::INCORPORATED_AT => $value,
+            CustomerAddressBuyer::SOLE_TRADER_SALUTATION => 'OTHER',
         ];
         $this->request->setParams($requestData);
         $result = $controller->execute();
@@ -167,6 +169,7 @@ class RequestPostTest extends TestCase
         $requestData = [
             CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
             $field => $value,
+            CustomerAddressBuyer::SOLE_TRADER_SALUTATION => 'OTHER',
         ];
         $this->request->setParams($requestData);
         $result = $controller->execute();
@@ -182,6 +185,68 @@ class RequestPostTest extends TestCase
             ['incorporatedAtMonth', 99],
             ['incorporatedAtYear', null],
             ['incorporatedAtYear', 0],
+        ];
+    }
+
+    public function testIfSoleTraderSalutation(): void
+    {
+        /** @var Address $address */
+        $address = (new ObjectManager($this))->getObject(Address::class);
+        $address->setCustomerId(1);
+        $this->addressRepository->method('getById')->willReturn($address);
+        $this->customerSession->method('getCustomerId')->willReturn(1);
+
+        $controller = new RequestPost($this->addressRepository, $this->customerSession, $this->request, $this->messageManager, $this->buyerService, $this->facilityService, $this->redirectFactory);
+
+        $this->messageManager->expects($this->never())->method('addErrorMessage');
+        $this->messageManager->expects($this->once())->method('addSuccessMessage');
+        $this->buyerService->expects($this->once())->method('updateCustomerAddressData')->willReturnCallback(static function (AddressInterface $address, array $data): void {
+            self::assertArrayHasKey(CustomerAddressBuyer::SOLE_TRADER_SALUTATION, $data);
+            self::assertEquals('OTHER', $data[CustomerAddressBuyer::SOLE_TRADER_SALUTATION]);
+        });
+        $this->facilityService->expects($this->once())->method('createFacilityForBuyerIfNotExist');
+
+        $requestData = [
+            CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
+            CustomerAddressBuyer::INCORPORATED_AT => '2024-01-31',
+            CustomerAddressBuyer::SOLE_TRADER_SALUTATION => 'OTHER',
+        ];
+        $this->request->setParams($requestData);
+        $result = $controller->execute();
+        self::assertInstanceOf(Redirect::class, $result);
+        self::assertEquals('*/*/list', $result->getUrl());
+    }
+
+    /**
+     * @dataProvider missingSoleTraderSalutationValidationDataProvider
+     */
+    public function testMissingSoleTraderSalutationValidation(mixed $value): void
+    {
+        /** @var Address $address */
+        $address = (new ObjectManager($this))->getObject(Address::class);
+        $address->setCustomerId(1);
+        $this->addressRepository->method('getById')->willReturn($address);
+        $this->customerSession->method('getCustomerId')->willReturn(1);
+
+        $controller = new RequestPost($this->addressRepository, $this->customerSession, $this->request, $this->messageManager, $this->buyerService, $this->facilityService, $this->redirectFactory);
+
+        $this->messageManager->expects($this->exactly(1))->method('addErrorMessage')->with('Please provide the salutation of the sole trader.');
+        $requestData = [
+            CustomerAddressBuyer::LEGAL_FORM => 'SOLE_TRADER',
+            CustomerAddressBuyer::INCORPORATED_AT => '2020-01-01',
+            CustomerAddressBuyer::SOLE_TRADER_SALUTATION => $value,
+        ];
+        $this->request->setParams($requestData);
+        $result = $controller->execute();
+        self::assertInstanceOf(Redirect::class, $result);
+        self::assertEquals('*/*/request', $result->getUrl());
+    }
+
+    public static function missingSoleTraderSalutationValidationDataProvider(): array
+    {
+        return [
+            [null],
+            [''],
         ];
     }
 

@@ -60,3 +60,8 @@ Advanced,Advanced
 "Business start date","Business start date"
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101."
 "Unknown error during creating facility","Unknown error during creating facility"
+"Salutation","Salutation"
+"Mr.","Mr.",
+"Ms.","Ms.",
+"Divers","Divers"
+"Please provide the salutation of the sole trader.","Please provide the salutation of the sole trader."

@@ -18,6 +18,7 @@ use Magento\Customer\Model\Address\Mapper;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Tilta\Payment\Helper\Context;
+use Tilta\Payment\Helper\SalutationHelper;
 use Tilta\Payment\Service\LegalFormService;
 
 class FacilityForm implements ArgumentInterface
@@ -26,7 +27,8 @@ class FacilityForm implements ArgumentInterface
         private readonly Context $context,
         private readonly LegalFormService $legalFormService,
         private readonly Address $addressHelper,
-        private readonly Mapper $addressMapper
+        private readonly Mapper $addressMapper,
+        private readonly SalutationHelper $salutationHelper,
     ) {
     }
 
@@ -56,5 +58,10 @@ class FacilityForm implements ArgumentInterface
         }
 
         return (string) $renderer->renderArray($this->addressMapper->toFlatArray($this->getAddress()));
+    }
+
+    public function getSalutationOptions(): array
+    {
+        return $this->salutationHelper->getSalutationOptions();
     }
 }

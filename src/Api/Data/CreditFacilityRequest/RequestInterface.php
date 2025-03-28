@@ -36,6 +36,17 @@ interface RequestInterface
     public function setLegalForm(string $legalForm): void;
 
     /**
+     * @return string|null
+     */
+    public function getSoleTraderSalutation(): ?string;
+
+    /**
+     * @param string|null $soleTraderSalutation
+     * @return void
+     */
+    public function setSoleTraderSalutation(?string $soleTraderSalutation): void;
+
+    /**
      * @return string
      */
     public function getIncorporationDate(): string;

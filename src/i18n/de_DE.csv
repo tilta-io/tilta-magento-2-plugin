@@ -60,3 +60,8 @@ Advanced,Erweitert
 "Business start date","Unternehmen angemeldet am"
 "Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.","Bitte beachten Sie die korrekte Schreibweise der Telefonnummer. Diese muss mit dem Ländercode beginnen und darf keine Leerzeichen enthalten. Beispiel: +491731010101"
 "Unknown error during creating facility","Unbekannter Fehler beim Erstellen des Kreditlimits."
+"Salutation","Anrede",
+"Mr.","Herr",
+"Ms.","Frau",
+"Divers","Divers"
+"Please provide the salutation of the sole trader.","Bitte geben Sie die Anrede des Einzelunternehmers an."
