@@ -47,13 +47,13 @@ interface CheckoutPaymentTermInterface
     public function setName(string $name): void;
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDueDate(): string;
+    public function getDaysToPay(): int;
 
     /**
-     * @param string $dueDate
+     * @param int $daysToPay
      * @return void
      */
-    public function setDueDate(string $dueDate): void;
+    public function setDaysToPay(int $daysToPay): void;
 }

@@ -99,16 +99,10 @@ define([
         selectPaymentTerm(term) {
             this.selectedPaymentTerm(term);
         },
-
-        getDaysToDueDate(dueDate) {
-            let Difference_In_Time = new Date(dueDate).getTime() - new Date().getTime();
-            return Math.round(Difference_In_Time / (1000 * 3600 * 24));
-        },
-
         getPaymentInformation() {
             const term = this.selectedPaymentTerm();
 
-            return term ? $t('You have %1 days to pay after your order is shipped. We will send you a reminder when the payment date is close with all important details.').replace('%1', this.getDaysToDueDate(term.due_date)) : null
+            return term ? $t('You have %1 days to pay after your order is shipped. We will send you a reminder when the payment date is close with all important details.').replace('%1', term.days_to_pay) : null
         },
 
         isAvailable: function () {

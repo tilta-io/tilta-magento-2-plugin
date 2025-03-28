@@ -21,7 +21,7 @@ class CheckoutPaymentTerm implements CheckoutPaymentTermInterface
 
     private string $name;
 
-    private string $dueDate;
+    private int $daysToPay;
 
     public function getPaymentMethod(): string
     {
@@ -53,13 +53,13 @@ class CheckoutPaymentTerm implements CheckoutPaymentTermInterface
         $this->name = $name;
     }
 
-    public function getDueDate(): string
+    public function getDaysToPay(): int
     {
-        return $this->dueDate;
+        return $this->daysToPay;
     }
 
-    public function setDueDate(string $dueDate): void
+    public function setDaysToPay(int $daysToPay): void
     {
-        $this->dueDate = $dueDate;
+        $this->daysToPay = $daysToPay;
     }
 }

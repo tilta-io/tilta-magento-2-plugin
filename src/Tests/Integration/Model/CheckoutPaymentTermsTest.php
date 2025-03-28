@@ -76,13 +76,13 @@ class CheckoutPaymentTermsTest extends TestCase
                 'payment_method' => 'test-payment-method',
                 'payment_term' => 'test-payment-term',
                 'name' => 'test-name',
-                'due_date' => DateTime::createFromFormat('Y-m-d', '2050-01-01')->format('U'),
+                'due_date' => (new DateTime())->modify('+50 days')->format('U'),
                 'amount' => ResponseHelper::PHPUNIT_OBJECT,
             ], [
                 'payment_method' => 'test-payment-method2',
                 'payment_term' => 'test-payment-term2',
                 'name' => 'test-name2',
-                'due_date' => DateTime::createFromFormat('Y-m-d', '2100-01-01')->format('U'),
+                'due_date' => (new DateTime())->modify('+100 days')->format('U'),
                 'amount' => ResponseHelper::PHPUNIT_OBJECT,
             ]],
         ])));
@@ -98,14 +98,14 @@ class CheckoutPaymentTermsTest extends TestCase
         self::assertEquals('test-name', $term->getName());
         self::assertEquals('test-payment-term', $term->getPaymentTerm());
         self::assertEquals('test-payment-method', $term->getPaymentMethod());
-        self::assertEquals('2050-01-01', $term->getDueDate());
+        self::assertEquals(50, $term->getDaysToPay());
 
         /** @var CheckoutPaymentTermInterface $term */
         $term = $paymentTerms->getPaymentTerms()[1];
         self::assertEquals('test-name2', $term->getName());
         self::assertEquals('test-payment-term2', $term->getPaymentTerm());
         self::assertEquals('test-payment-method2', $term->getPaymentMethod());
-        self::assertEquals('2100-01-01', $term->getDueDate());
+        self::assertEquals(100, $term->getDaysToPay());
     }
 
     public function testFacilityIsToLow(): void

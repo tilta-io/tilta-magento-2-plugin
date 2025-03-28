@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Tilta\Payment\Model;
 
+use DateTime;
+use DateTimeZone;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Quote\Api\CartRepositoryInterface;
@@ -75,7 +77,12 @@ class CheckoutPaymentTerms implements CheckoutPaymentTermsInterface
             $term->setPaymentMethod($paymentTerm->getPaymentMethod());
             $term->setPaymentTerm($paymentTerm->getPaymentTerm());
             $term->setName($paymentTerm->getName());
-            $term->setDueDate($paymentTerm->getDueDate()->format('Y-m-d'));
+
+            /** @var DateTime $dueDate */
+            $dueDate = $paymentTerm->getDueDate();
+            $actualDate = (new DateTime())->setTime(0, 0)->setTimezone(new DateTimeZone('UTC'));
+            $dueDate = $dueDate->setTime(0, 0)->setTimezone(new DateTimeZone('UTC'));
+            $term->setDaysToPay((int) $actualDate->diff($dueDate)->days);
 
             $responseTerms[] = $term;
         }
