@@ -20,6 +20,24 @@
                     <arguments>
                         <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
                     </arguments>
+
+                    <block name="tilta.facility.form.legal-form" as="legal-form" template="Tilta_Payment::components/buyer-fields/legal-form.phtml">
+                        <arguments>
+                            <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                        </arguments>
+                    </block>
+
+                    <block name="tilta.facility.form.incorporated-at" as="incorporated-at" template="Tilta_Payment::components/buyer-fields/incorporated-at.phtml">
+                        <arguments>
+                            <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                        </arguments>
+                    </block>
+
+                    <block name="tilta.facility.form.telephone" as="telephone" template="Tilta_Payment::components/buyer-fields/telephone.phtml">
+                        <arguments>
+                            <argument name="view_model" xsi:type="object">Tilta\Payment\ViewModel\CustomerAccount\FacilityForm</argument>
+                        </arguments>
+                    </block>
                 </block>
             </block>
         </referenceBlock>

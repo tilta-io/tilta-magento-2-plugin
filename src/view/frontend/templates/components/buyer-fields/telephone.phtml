@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityForm) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+?>
+
+<div class="field telephone">
+    <label for="telephone" class="label">
+        <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+    </label>
+    <div class="control">
+        <input type="tel"
+               name="telephone"
+               id="telephone"
+               value="<?= $escaper->escapeHtmlAttr((string) $viewModel->getAddress()->getTelephone()) ?>"
+               title="<?= $escaper->escapeHtmlAttr((string) __('Phone Number')) ?>"
+               class="input-text"
+        >
+        <p class="tilta-phone-hint"><?= $escaper->escapeHtml((string)__('Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.')) ?></p>
+    </div>
+</div>

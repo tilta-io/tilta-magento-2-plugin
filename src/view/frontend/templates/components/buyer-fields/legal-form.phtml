@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
+use Tilta\Payment\Model\CustomerAddressBuyer;
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
+
+$viewModel = $block->getData('view_model');
+if (!$viewModel instanceof FacilityForm) {
+    throw new \Exception('invalid view model in ' . $block->getTemplate());
+}
+
+$buyerData = $viewModel->getAddress()->getExtensionAttributes()?->getTiltaBuyer();
+?>
+<div class="field required">
+    <label class="label" for="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>">
+        <span><?=__('Legal form')?></span>
+    </label>
+    <div class="control">
+        <select id="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>"
+                name="<?= /** @noEscape */ CustomerAddressBuyer::LEGAL_FORM ?>"
+                title="<?= __('Legal form') ?>"
+                required
+        >
+            <?php if ($buyerData?->getLegalForm() === null): ?>
+                <option disabled selected><?= $escaper->escapeHtml((string) __('-- Please Select --')) ?></option>
+            <?php endif ?>
+            <?php foreach ($viewModel->getLegalForms() as $legalForm): ?>
+                <option value="<?= $escaper->escapeHtmlAttr($legalForm['value']) ?>"
+                    <?= $buyerData?->getLegalForm() === $legalForm['value'] ? 'selected="selected"' : '' ?>
+                >
+                    <?= $escaper->escapeHtml($legalForm['label']) ?>
+                </option>
+            <?php endforeach ?>
+        </select>
+    </div>
+</div>
