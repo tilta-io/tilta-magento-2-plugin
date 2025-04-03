@@ -46,7 +46,7 @@ class FacilityForm implements ArgumentInterface
     {
         return (string) __(
             'Payment by invoice is offered in partnership with Tilta. I confirm that I have read and accept the privacy policy of <a href="%1" target="_blank">Tilta</a>.',
-            'https://static.tilta.io/data-privacy/buyers/tilta-data-protection-information_v2.0_2024-08-15_en_DE.pdf',
+            'https://link.tilta.io/buyer-privacy-policy',
         );
     }
 
