@@ -55,14 +55,14 @@ class CheckoutPaymentTerms implements CheckoutPaymentTermsInterface
             $facility = $this->facilityService->getFacility($customerAddress);
             if ($facility && $facility->getTotalAmount() < AmountHelper::toSdk((float) $quote->getBaseGrandTotal())) {
                 // facility is not exceeded, the facility is too low to be get used for this order.
-                $response->setErrorMessage((string) __('Your credit limit does not cover the total of this order. Please review and adjust your order or payment method accordingly. If you have any questions or require assistance, please contact our customer service.'));
+                $response->setErrorMessage((string) __('Your available credit limit does not cover the total of this order. Please review and adjust your order or choose a different payment method. If you have any questions or require assistance, please contact our customer service.'));
             } else {
-                $response->setErrorMessage((string) __('Your credit limit is currently reached. Please settle any outstanding invoices before placing another order on account. If you have any questions or need assistance, our customer service is here to help.'));
+                $response->setErrorMessage((string) __('Your credit limit is fully spent. Please settle any outstanding invoices before placing another order with payment by invoice. If you have any questions or need assistance, our customer service is here to help.'));
             }
 
             return $response;
         } catch (Throwable $exception) {
-            $response->setErrorMessage((string) __('Unfortunately, you cannot use this payment method. Please contact customer service.'));
+            $response->setErrorMessage((string) __('Unfortunately, you cannot use this payment method. Please contact our customer service.'));
             $this->logger->error('Tilta Payments: Error during fetching actual facility for buyer to validate if the facility is to low for the order. ' . $exception->getMessage(), [
                 'quote_id' => $cartId,
             ]);

@@ -43,7 +43,7 @@ class CustomerAddressBuyerRepository implements CustomerAddressBuyerRepositoryIn
         $this->customerAddressBuyerResource->load($model, $customerAddressId, CustomerAddressBuyerInterface::CUSTOMER_ADDRESS_ID);
 
         if (empty($model->getData(CustomerAddressBuyerInterface::CUSTOMER_ADDRESS_ID))) {
-            throw new NoSuchEntityException(__('Tilta Customer address data not found'));
+            throw new NoSuchEntityException(__('Tilta customer address data not found.'));
         }
 
         return $model;

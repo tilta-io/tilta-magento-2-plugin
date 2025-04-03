@@ -85,7 +85,7 @@ define([
                     this.allowCreateFacility(result.allow_create_facility ? result.allow_create_facility : false);
                     resolve();
                 }).fail((error) => {
-                    this.messageContainer.addErrorMessage({message: $t('Unfortunately, you cannot use this payment method. Please contact customer service.')});
+                    this.messageContainer.addErrorMessage({message: $t('Unfortunately, you cannot use this payment method. Please contact our customer service.')});
                     console.error(error);
                     reject(error);
                 });

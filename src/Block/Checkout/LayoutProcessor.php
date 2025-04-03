@@ -18,6 +18,7 @@ use Throwable;
 use Tilta\Payment\Api\Data\CustomerAddressBuyerInterface;
 use Tilta\Payment\Helper\SalutationHelper;
 use Tilta\Payment\Service\LegalFormService;
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
 
 class LayoutProcessor implements LayoutProcessorInterface
 {
@@ -25,7 +26,8 @@ class LayoutProcessor implements LayoutProcessorInterface
         private readonly ArrayManager $arrayManager,
         private readonly LegalFormService $legalFormService,
         private readonly SalutationHelper $salutationHelper,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly FacilityForm $facilityForm,
     ) {
     }
 
@@ -48,6 +50,11 @@ class LayoutProcessor implements LayoutProcessorInterface
         $salutationPath = $this->arrayManager->findPath(CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION, $jsLayout, $path);
         if (is_string($salutationPath) && $this->arrayManager->get($salutationPath, $jsLayout)) {
             $jsLayout = $this->arrayManager->set($salutationPath . '/options', $jsLayout, $this->salutationHelper->getSalutationOptions());
+        }
+
+        $tocPath = $this->arrayManager->findPath('toc', $jsLayout, $path);
+        if (is_string($tocPath) && $this->arrayManager->get($tocPath, $jsLayout)) {
+            $jsLayout = $this->arrayManager->set($tocPath . '/description', $jsLayout, $this->facilityForm->getToc());
         }
 
         return $jsLayout;

@@ -267,7 +267,7 @@ class BuyerService
         if (!empty($tiltaData->getIncorporatedAt())) {
             $incorporatedAt = DateTime::createFromFormat($tiltaData::DATE_FORMAT, $tiltaData->getIncorporatedAt());
             if (!$incorporatedAt instanceof DateTimeInterface) {
-                throw new LocalizedException(__('Incorporated at must be a valid date'));
+                throw new LocalizedException(__('The business start date must be a valid date.'));
             }
 
             $requestModel->setIncorporatedAt($incorporatedAt);

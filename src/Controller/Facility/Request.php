@@ -37,7 +37,7 @@ class Request extends AbstractFacility implements HttpGetActionInterface
         $this->context->setCurrentEditAddress($address);
 
         $page = $this->pageFactory->create();
-        $page->getConfig()->getTitle()->prepend((string) __('Request credit facility'));
+        $page->getConfig()->getTitle()->prepend((string) __('Activate payment by invoice'));
 
         return $page;
     }

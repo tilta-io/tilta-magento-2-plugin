@@ -18,7 +18,7 @@ class MissingBuyerInformationException extends LocalizedException
     public function __construct(
         private readonly array $errorMessages
     ) {
-        parent::__construct(__('Creating buyer is failed, cause of missing fields.'));
+        parent::__construct(__('Account creation failed due to missing fields.'));
     }
 
     public function getErrorMessages(): array

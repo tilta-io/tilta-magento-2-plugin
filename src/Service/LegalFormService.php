@@ -40,10 +40,11 @@ class LegalFormService
 
             $options = [];
             foreach ($responseModel->getItems() as $code => $label) {
-                $translationByCode = (string) __($code);
+                $translationKey = 'TILTA_LEGAL_FORM__' . $code;
+                $translationByCode = (string) __($translationKey);
                 $options[] = [
                     'value' => $code,
-                    'label' => $translationByCode !== $code ? $translationByCode : __($label),
+                    'label' => $translationByCode !== $translationKey ? $translationByCode : __($label),
                 ];
             }
 

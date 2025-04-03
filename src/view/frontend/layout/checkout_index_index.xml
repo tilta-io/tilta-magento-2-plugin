@@ -65,7 +65,7 @@
                                                                                     </item>
                                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                                     <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.telephone</item>
-                                                                                    <item name="label" xsi:type="string" translate="true">Telephone</item>
+                                                                                    <item name="label" xsi:type="string" translate="true">Phone Number</item>
                                                                                     <item name="notice" xsi:type="string" translate="true">Please note the correct format of the phone number. It must start with the country code and should not contain any spaces. Example: +491731010101.</item>
                                                                                     <item name="sortOrder" xsi:type="string">20</item>
                                                                                 </item>
@@ -106,11 +106,11 @@
                                                                                     <item name="config" xsi:type="array">
                                                                                         <item name="customScope" xsi:type="string">tiltaCreateFacilityForm</item>
                                                                                         <item name="template" xsi:type="string">ui/form/field</item>
-                                                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/checkbox</item>
+                                                                                        <item name="elementTmpl" xsi:type="string">Tilta_Payment/form/element/toc-checkbox</item>
                                                                                     </item>
                                                                                     <item name="provider" xsi:type="string">checkoutProvider</item>
                                                                                     <item name="dataScope" xsi:type="string">tiltaCreateFacilityForm.toc</item>
-                                                                                    <item name="description" xsi:type="string" translate="true">Invoice Payments are offered in partnership with Varengold Bank. I confirm that I have read and accept the privacy policy of Varengold and Tilta.</item>
+                                                                                    <item name="description" xsi:type="null"/> <!-- got filled by checkout layout-processor -->
                                                                                     <item name="validation" xsi:type="array">
                                                                                         <item name="required-entry" xsi:type="string">true</item>
                                                                                     </item>

@@ -17,6 +17,6 @@ class OrderIsNotATiltaOrder extends LocalizedException
 {
     public function __construct(int $id)
     {
-        parent::__construct(__('Order with id %1 is not a Tilta order.', $id));
+        parent::__construct(__('Order with ID %1 is not a Tilta order.', $id));
     }
 }

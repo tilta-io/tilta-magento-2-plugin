@@ -38,7 +38,7 @@ class ListAction implements HttpGetActionInterface, AccountInterface
         }
 
         $page = $this->pageFactory->create();
-        $page->getConfig()->getTitle()->prepend((string) __('Credit facilities'));
+        $page->getConfig()->getTitle()->prepend((string) __('Credit limits'));
 
         return $page;
     }

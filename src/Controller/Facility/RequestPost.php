@@ -99,7 +99,7 @@ class RequestPost extends AbstractFacility implements HttpPostActionInterface, C
             return $this->redirectBackToForm($address);
         }
 
-        $this->messageManager->addSuccessMessage((string) __('The credit facility has been created successful.'));
+        $this->messageManager->addSuccessMessage((string) __('Payment by invoice is activated and a credit limit has been approved.'));
 
         return $this->redirectFactory->create()->setPath('*/*/list');
     }

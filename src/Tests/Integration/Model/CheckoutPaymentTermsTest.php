@@ -143,7 +143,7 @@ class CheckoutPaymentTermsTest extends TestCase
         $paymentTerms = $service->getPaymentTermsForCart(999, (int) $cart->getId());
         self::assertInstanceOf(CheckoutPaymentTermsResponseInterface::class, $paymentTerms);
         self::assertFalse($paymentTerms->isAllowCreateFacility());
-        self::assertStringContainsString('Your credit limit does not cover the total of this order.', $paymentTerms->getErrorMessage());
+        self::assertStringContainsString('Your available credit limit does not cover the total of this order.', $paymentTerms->getErrorMessage());
         self::assertCount(0, $paymentTerms->getPaymentTerms());
     }
 
@@ -182,7 +182,7 @@ class CheckoutPaymentTermsTest extends TestCase
         $paymentTerms = $service->getPaymentTermsForCart(999, (int) $cart->getId());
         self::assertInstanceOf(CheckoutPaymentTermsResponseInterface::class, $paymentTerms);
         self::assertFalse($paymentTerms->isAllowCreateFacility());
-        self::assertStringContainsString('Your credit limit is currently reached', $paymentTerms->getErrorMessage());
+        self::assertStringContainsString('Your credit limit is fully spent.', $paymentTerms->getErrorMessage());
         self::assertCount(0, $paymentTerms->getPaymentTerms());
     }
 

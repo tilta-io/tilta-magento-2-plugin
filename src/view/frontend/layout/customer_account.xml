@@ -7,7 +7,7 @@
         <referenceBlock name="customer_account_navigation">
             <block class="Tilta\Payment\Block\Account\CreditFacilities" name="tilta-credit-facilities">
                 <arguments>
-                    <argument name="label" xsi:type="string" translate="true">Credit facilities</argument>
+                    <argument name="label" xsi:type="string" translate="true">Credit limits</argument>
                     <argument name="path" xsi:type="string">tilta/facility/list</argument>
                     <argument name="sortOrder" xsi:type="number">160</argument>
                 </arguments>

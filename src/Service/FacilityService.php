@@ -71,7 +71,7 @@ class FacilityService
             return $facility;
         }
 
-        throw new LocalizedException(__('Facility got not returned from gateway'));
+        throw new LocalizedException(__('Limit was not returned by gateway.'));
     }
 
     /**

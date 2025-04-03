@@ -17,7 +17,7 @@ if (!$viewModel instanceof FacilityList) {
         <thead>
         <tr>
             <th scope="col" class="col"><?= $block->escapeHtml(__('Address')) ?></th>
-            <th scope="col" class="col"><?= $block->escapeHtml(__('Facility usage')) ?></th>
+            <th scope="col" class="col"><?= $block->escapeHtml(__('Limit usage')) ?></th>
         </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@ if (!$viewModel instanceof FacilityList) {
                 <td data-th="<?= $block->escapeHtml(__('Usage')) ?>" class="col tilta-buyer-list__item__status">
                     <?php if (!$facilityUsage instanceof DataObject) :?>
                         <a class="action button primary" href="<?= $escaper->escapeUrl($block->getUrl('*/*/request', ['id' => $address->getId()])) ?>">
-                            <span><?= $block->escapeHtml(__('Request credit facility')) ?></span>
+                            <span><?= $block->escapeHtml(__('Activate payment by invoice')) ?></span>
                         </a>
                     <?php else :?>
                         <div class="progress-bar">

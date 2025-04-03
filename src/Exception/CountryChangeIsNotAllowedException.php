@@ -18,7 +18,7 @@ class CountryChangeIsNotAllowedException extends InputException
     public function __construct(
         private readonly array $addressIds
     ) {
-        parent::__construct(__('Changing the country on a existing customer-address is not allowed, if the address does have a credit facility.'));
+        parent::__construct(__('Changing the country on a existing customer address is not allowed, if the address does have a credit limit.'));
     }
 
     /**

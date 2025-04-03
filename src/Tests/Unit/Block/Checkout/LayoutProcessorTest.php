@@ -18,6 +18,7 @@ use Tilta\Payment\Api\Data\CustomerAddressBuyerInterface;
 use Tilta\Payment\Block\Checkout\LayoutProcessor;
 use Tilta\Payment\Helper\SalutationHelper;
 use Tilta\Payment\Service\LegalFormService;
+use Tilta\Payment\ViewModel\CustomerAccount\FacilityForm;
 use Tilta\Sdk\Exception\GatewayException\UnexpectedServerResponse;
 
 class LayoutProcessorTest extends TestCase
@@ -29,6 +30,7 @@ class LayoutProcessorTest extends TestCase
             $legalFormService = $this->createMock(LegalFormService::class),
             $salutationHelper = $this->createMock(SalutationHelper::class),
             $this->createMock(LoggerInterface::class),
+            $facilityForm = $this->createMock(FacilityForm::class),
         );
         $legalFormService->method('getLegalForms')->willReturn([
             [
@@ -51,6 +53,7 @@ class LayoutProcessorTest extends TestCase
                 'label' => 'label5',
             ],
         ]);
+        $facilityForm->method('getToc')->willReturn('test-toc');
 
         $result = $processor->process([
             'test1' => [
@@ -65,6 +68,9 @@ class LayoutProcessorTest extends TestCase
                                 ],
                                 CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION => [
                                     'test6' => 'test6_value',
+                                ],
+                                'toc' => [
+                                    'test7' => 'test7_value',
                                 ],
                             ],
                         ],
@@ -111,6 +117,11 @@ class LayoutProcessorTest extends TestCase
                 'label' => 'label5',
             ],
         ], $result['test1']['test2']['test3']['tilta-request-facility-form-fieldset']['children'][CustomerAddressBuyerInterface::SOLE_TRADER_SALUTATION]['options']);
+
+        // check toc
+        self::assertArrayHasKey('toc', $result['test1']['test2']['test3']['tilta-request-facility-form-fieldset']['children']);
+        self::assertArrayHasKey('description', $result['test1']['test2']['test3']['tilta-request-facility-form-fieldset']['children']['toc']);
+        self::assertEquals('test-toc', $result['test1']['test2']['test3']['tilta-request-facility-form-fieldset']['children']['toc']['description']);
     }
 
     public function testIfApiExceptionGotHandled(): void
@@ -120,6 +131,7 @@ class LayoutProcessorTest extends TestCase
             $legalFormService = $this->createMock(LegalFormService::class),
             $this->createMock(SalutationHelper::class),
             $this->createMock(LoggerInterface::class),
+            $this->createMock(FacilityForm::class),
         );
         $legalFormService->expects($this->once())->method('getLegalForms')->willThrowException(new UnexpectedServerResponse(123));
 
@@ -158,9 +170,11 @@ class LayoutProcessorTest extends TestCase
             $legalFormService = $this->createMock(LegalFormService::class),
             $salutationHelper = $this->createMock(SalutationHelper::class),
             $this->createMock(LoggerInterface::class),
+            $facilityForm = $this->createMock(FacilityForm::class),
         );
         $legalFormService->expects($this->never())->method('getLegalForms');
         $salutationHelper->expects($this->never())->method('getSalutationOptions');
+        $facilityForm->expects($this->never())->method('getToc');
 
         $input = [
             'test1' => 'value1',

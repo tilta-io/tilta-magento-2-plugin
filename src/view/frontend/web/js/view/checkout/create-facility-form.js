@@ -82,7 +82,7 @@ define([
             }).fail((error) => {
                 $("body").trigger('processStop');
                 const message = error && error.responseJSON && error.responseJSON.message;
-                this.messageContainer.addErrorMessage({message: message ? message : $t('Unknown error during creating facility')});
+                this.messageContainer.addErrorMessage({message: message ? message : $t('Unknown error during credit limit request')});
                 if (!message) {
                     console.error(error)
                 }
