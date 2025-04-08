@@ -67,6 +67,71 @@ the [Magento documentation](https://experienceleague.adobe.com/en/docs/commerce-
 
 By running the same steps as in the installation, you can update the extension to the latest compatible version.
 
-### Configuration
+## Configuration
 
-TODO
+Configuring the extension is straightforward. You only need to set up the API credentials and enable the payment method.
+
+1. Open the Admin Panel.
+2. Navigate to Stores > Configuration > Sales > Payment Methods.
+3. Locate the "Tilta Payment" section under "Other Payment Methods."
+4. Click on "Configure" to expand the configuration options.
+
+| Field                    | Description                                                                               |
+|--------------------------|-------------------------------------------------------------------------------------------|
+| Enabled                  | Toggle to enable or disable the payment method.                                           |
+| Sandbox enabled          | If enabled, all transactions are sent to the sandbox API. No real payments are processed. |
+| Auth Token               | 	API credential "Auth Token" provided by merchant support.                                |
+| Merchant external ID     | Your merchant's external ID, provided by merchant support.                                |
+| Buyer External ID prefix | Prefixes all buyer external IDs with the specified value, if provided.                    |
+
+That's it! Verify the functionality in the frontend. You should now be able to place orders using Tilta.
+
+## Usage
+
+### Customer
+
+To pay using Tilta, customers must first register an account in your online shop.
+
+Currently, payments cannot be processed for billing addresses not stored in the database. Therefore, customers must set
+up their billing address before initiating checkout.
+
+#### Customer Steps:
+
+1. Visit the Online Shop.
+2. Log in or register a new account.
+3. Create an address including the company name.
+4. Navigate to "Credit Limits" in the sidebar of the customer account.
+5. Select the address and click on "Activate Payment by Invoice."
+6. Fill in the company details and confirm by clicking "Activate Payment by Invoice" again.
+7. Verify that the credit limit has been created.
+
+If a customer has more than one address, they must repeat steps 5 onwards for each address they wish to use for payment
+with Tilta.
+
+Once a credit limit is established, the customer can use Tilta to pay with that address.
+
+#### Checkout Process:
+
+1. Proceed to checkout.
+2. Select a billing address with an active credit limit.
+3. If available, select the due time.
+4. Confirm the order.
+
+### Administrator / Merchant
+
+No special actions are required from the merchant to process the order.
+
+The payment amount is automatically captured when the invoice is created in the administration panel or via the API.
+Simply create the Magento invoice to start the payment period.
+
+To issue a refund, simple create a credit memo.
+
+## Support
+
+If you encounter any issues with the module, please create a GitHub issue or contact technical support.
+
+
+
+
+
+
