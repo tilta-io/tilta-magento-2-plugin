@@ -17,6 +17,7 @@ use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Block\Widget\Telephone;
+use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -71,7 +72,20 @@ class BuyerService
             return $externalId;
         }
 
-        return $this->config->getBuyerExternalIdPrefix() . md5(random_bytes(8) . ($address->getCustomerId() . $address->getId()));
+        $buyerExternalId = $this->config->getBuyerExternalIdPrefix() . md5(random_bytes(8) . ($address->getCustomerId() . $address->getId()));
+
+        $transport = new DataObject([
+            'buyer_external_id' => $buyerExternalId,
+        ]);
+
+        $this->eventManager->dispatch('tilta_payment_generate_buyer_external_id', [
+            'transport' => $transport,
+            'customer_address' => $address,
+            'customer_id' => (int) $address->getCustomerId(),
+        ]);
+        $buyerExternalId = $transport->getData('buyer_external_id');
+
+        return is_string($buyerExternalId) ? (string) $buyerExternalId : throw new RuntimeException('buyer external id must be type of string');
     }
 
     public function updateCustomerAddressData(AddressInterface $addressEntity, array $data): void
