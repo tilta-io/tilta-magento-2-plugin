@@ -43,7 +43,7 @@ jobs:
 
             -   name: Create Magento project
                 run: |
-                    composer create-project --repository-url=https://repo-magento-mirror.fooman.co.nz/ magento/project-community-edition:^${{ matrix.magento-version }} . --no-install
+                    composer create-project --repository-url=https://repo-magento-mirror.fooman.co.nz/ magento/project-community-edition:${{ matrix.magento-version }} . --no-install
                     composer config --unset repositories.0
                     composer config repositories.fooman-mirror composer https://repo-magento-mirror.fooman.co.nz/
 
