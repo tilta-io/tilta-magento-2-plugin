@@ -27,9 +27,9 @@ jobs:
 
                 exclude:
                     -   magento-version: 2.4.6
-                        php-version: 83
+                        php-version: 8.3
                     -   magento-version: 2.4.7
-                        php-version: 81
+                        php-version: 8.1
             fail-fast: false
             max-parallel: 10
 
