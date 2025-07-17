@@ -24,6 +24,7 @@ define([
         availablePaymentTerms: ko.observable([]),
         persistentErrorMessage: ko.observable(null),
         allowCreateFacility: ko.observable(false),
+        isLoading: ko.observable(false),
 
         initObservable: function () {
             this._super();
@@ -35,11 +36,16 @@ define([
                 ) {
                     return;
                 }
-                this._reset();
                 value && this._loadPaymentTerms(value);
             });
 
+            quote.paymentMethod.subscribe((value) => this._loadPaymentTerms());
+
             return this;
+        },
+
+        afterRender() {
+            this._loadPaymentTerms(quote.billingAddress())
         },
 
         getData: function () {
@@ -63,16 +69,19 @@ define([
         },
 
         _loadPaymentTerms(billingAddress) {
+            this._reset();
             billingAddress = billingAddress ? billingAddress : quote.billingAddress();
             const customerAddressId = billingAddress ? billingAddress.customerAddressId : null;
-            if (!customerAddressId) {
+            if (!customerAddressId || !quote.paymentMethod() || quote.paymentMethod().method !== 'tilta') {
                 return;
             }
+            this.isLoading(true);
 
             return new Promise((resolve, reject) => {
                 storage.get(urlBuilder.createUrl('/carts/mine/tilta/payment-terms/:addressId', {
                     addressId: customerAddressId
                 })).done((result) => {
+                    this.isLoading(false);
                     if (result.payment_terms.length === 1) {
                         this.selectedPaymentTerm(result.payment_terms[0]);
                     } else if (result.payment_terms.length > 0) {
@@ -85,6 +94,7 @@ define([
                     this.allowCreateFacility(result.allow_create_facility ? result.allow_create_facility : false);
                     resolve();
                 }).fail((error) => {
+                    this.isLoading(false);
                     this.messageContainer.addErrorMessage({message: $t('Unfortunately, you cannot use this payment method. Please contact our customer service.')});
                     console.error(error);
                     reject(error);

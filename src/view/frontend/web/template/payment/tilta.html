@@ -12,7 +12,7 @@
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
         <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
     </div>
-    <div class="payment-method-content">
+    <div class="payment-method-content" afterRender="afterRender" data-bind="blockLoader: isLoading">
         <!-- ko if: persistentErrorMessage() -->
         <div aria-atomic="true" role="alert" class="message message-error error">
             <div data-bind="text: persistentErrorMessage"></div>
